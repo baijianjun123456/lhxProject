@@ -1,0 +1,50 @@
+body{
+	width:100%;
+	height:100%;
+	font-family:"微软雅黑", "宋体";
+}
+
+.login{
+	width:849px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-186px;
+	margin-left:-425px;
+}
+
+.login div{
+	 width:400px;
+	 height:35px;
+	 margin-left:500px;
+}
+
+.login div lable{
+	width:100px;
+	text-align:right;
+	display:inline-block;
+	font-size:12px;
+	color:#333333;
+}
+
+.login div span{
+	width:250px;
+	text-align:left;
+	display:inline-block; 
+}
+
+.login div  input{
+	height:28px; 
+	width:250px; 
+	border:	1px solid #B2B2B2;
+	border-bottom:1PX solid #cacaca;
+	color:#333333;
+}
+
+.login #code{
+	width:40%; 
+}
+
+.login #codeImg{
+	width:50%; 
+}

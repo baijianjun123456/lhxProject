@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		   http://www.springframework.org/schema/security
+		   http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<!-- 静态资源集中过滤 不需要访问权限限制 -->
+	<http pattern="/common/**" security="none"/>
+	<http pattern="/system/**" security="none"/>
+	<http pattern="/index.jsp" security="none"/>
+	
+	<!-- 可追加多个登录入口 -->
+	<http pattern="/system/login/welcome.do" security="none"/>
+       
+    <custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
+    <custom-filter ref="ajaxLoginFilter" before="FORM_LOGIN_FILTER"/>
+	
+	<!-- 访问管理器 -->
+	<beans:bean id="loginFilter" class="com.lhx.common.security.LoginFilter">
+		<beans:property name="filterProcessesUrl" value="/login.do"></beans:property>
+		<beans:property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+	</beans:bean>
+	
+	<!-- 访问管理器(ajax) -->
+	<beans:bean id="ajaxLoginFilter" class="com.lhx.common.security.UdpLoginFilter">
+		<beans:property name="filterProcessesUrl" value="/ajaxlogin.do"></beans:property>
+		<beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+	</beans:bean>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="authenticationProvider"/>
+	</authentication-manager>
+	
+	<beans:bean id="authenticationProvider" class="com.lhx.common.security.AuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailService"/>
+		<beans:property name="hideUserNotFoundExceptions" value="false"/>
+		<beans:property name="passwordEncoder" ref="passwordEncoder"/>
+	</beans:bean>	
+
+    <beans:bean id="userDetailService" class="com.lhx.common.security.UserDetailService" />
+     
+       										
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+	</beans:bean>
+	
+	<!-- 登录的切入点 可session入口参数自定义登录后的欢迎主页 -->
+	<beans:bean id="loginLogAuthenticationSuccessHandler" class="com.lhx.common.security.UdpAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/login.do"></beans:property>
+		<beans:property name="udpUserService" ref="iUdpAllUserInfoService"/>
+	</beans:bean>
+	
+	<beans:bean id="loginAuthenticationFailureHandler"
+		class="com.lhx.common.security.LoginAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/common/jsp/error/error.jsp"/>
+		<beans:property name="exceptionMappings">
+			<beans:map>
+				<!-- 用户不存在 -->
+				<beans:entry value="/system/login/welcome.do?error_code=login_errorcode_001"
+					         key="org.springframework.security.core.userdetails.UsernameNotFoundException"/>
+					         
+				<!-- 凭证错误(密码不正确) -->
+				<beans:entry value="/system/login/welcome.do?error_code=login_errorcode_002"
+					         key="org.springframework.security.authentication.BadCredentialsException"/>
+					         
+				<!-- 用户不可用 -->
+				<beans:entry value="/system/login/welcome.do?error_code=login_errorcode_003"
+					         key="org.springframework.security.authentication.DisabledException"/>
+					
+				<beans:entry value="/system/login/welcome.do?error_code=login_errorcode_005"
+					         key="org.springframework.security.authentication.AuthenticationServiceException"/>
+					         
+				<!-- 其他通用错误 -->
+				<beans:entry value="/system/login/welcome.do?error_code=login_errorcode_006"
+					         key="org.springframework.security.authentication.InternalAuthenticationServiceException"/>
+			</beans:map>
+		</beans:property>
+	</beans:bean>
+	
+</beans:beans>  
