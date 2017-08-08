@@ -1,0 +1,98 @@
+body{
+	width:100%;
+	height:100%;
+	font-family:"微软雅黑", "宋体";
+}
+
+.login{
+	width:849px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-186px;
+	margin-left:-425px;
+}
+
+.login div{
+	 width:400px;
+	 height:35px;
+	 margin-left:500px;
+}
+
+.login div lable{
+	width:100px;
+	text-align:right;
+	display:inline-block;
+	font-size:12px;
+	color:#333333;
+}
+
+.login div span{
+	width:250px;
+	display:inline-block; 
+}
+
+.login div  input{
+	height:28px; 
+	width:250px; 
+	border:	1px solid #B2B2B2;
+	border-bottom:1PX solid #cacaca;
+	color:#333333;
+}
+
+
+/* .login #userCode{
+	width:100px; 
+	height:32px;
+	margin-right:5px;
+}
+
+.login #codeImg{
+	width:100px; 
+	height:32px;
+	
+} */
+
+.login .codeV{
+	width:140px; 
+	height:28px;
+
+}
+
+.login .codeV input{
+	width:100%; 
+	height:100%;
+	margin:0px;
+}
+
+.login .codeImg{
+	width:105px; 
+	height:28px;
+	text-align:center;
+	vertical-align:middle;
+	margin-right:5px;
+}
+
+.login .codeImg img{
+	width:100%; 
+	height:100%;
+	border:1px;
+	border-style:solid ;
+}
+
+.menusub{
+	height:20px;
+	width:100%;
+	text-align:center;
+	padding-bottom:5px;
+	padding-top:5px;
+	border-bottom: 1px dashed  #000; 
+	cursor: pointer ;
+	background-color:antiquewhite;
+}
+
+.menusub:hover {
+	background-color:burlywood;
+	font-weight :bold ;
+}
+

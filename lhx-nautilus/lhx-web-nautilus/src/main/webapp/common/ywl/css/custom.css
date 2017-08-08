@@ -1,0 +1,75 @@
+body{  background:url(../images/bgbanner.png) #21272b center top no-repeat; background-size:100% auto;}
+a.navbar-brand{ background:url(../images/logo.png) no-repeat; width:59px; height:49px; margin-top:6px; } 
+.navbar-brand { background:none;}
+.navbar-nav{ margin-top:6px; margin-left:56px; font-size:12px; color:#7f8386;}
+.navbar-default .navbar-nav > li > a:hover,.navbar-default .navbar-nav > .active > a,.navbar-default .navbar-nav > .active > a:hover{ background:none; color:#d4d7d8;}
+.navbar-default .navbar-nav > li > a:focus,.navbar-default .navbar-nav > .active > a:focus{ color:#d4d7d8; background:none;}
+/*顶部+导航*/
+
+
+.jumbotron{ background:none; height:auto; padding-bottom:0px; padding-top:0;}
+.jumbotron img{ margin:0 auto;}
+.btn-tra{ background:none; padding-left:40px;}
+.form-control-cus,.input-group-search{ height:50px;background:#16191c; border:none; color:#93a5b8; margin:20px 0;}
+.input-group-search .btn-search{ background:#2f8be6; }
+.input-group-search { color:#fff; font-size:14px;border-radius: 4px}
+.input-group-search .btn-search:hover { color:#fff; background:#3193f5;}
+.input-group-search :last-child > .btn{border-radius: 4px; padding:20px; margin:10px;}
+.input-group-search .input-group-btn >.btn:hover,.input-group-search .input-group-btn > .btn:focus{ color:#fff;}
+.search-box{ padding:0 10%;    margin: -100px 30px -100px 30px;}
+.input-group-search .caret{ border:none; color:#d7ca15; padding:3px;}
+/*搜索+ad*/
+
+.well,.bg-black{ background:#16191c;}
+.bg-grey{ background:#2c343a;}
+.fix{ position:absolute; left:0;top:100%; z-index:999;}
+.tab1{ border-bottom:#41484d solid 1px;}
+.tab1 li a{ font-size:12px; font-weight:bold; color:#93a5b8;padding:10px 26px;}
+.tab1 li.active a,.tab1 li.active a:hover,.tab1 li.active a:focus{ background:none; border-bottom:#009ee6 2px solid; border-radius: 0px; color:#009ee6;}
+.tab1 li a:hover ,.tab1 li a:focus{ background:none;  border-radius: 0px; color:#009ee6; }
+
+.info-cus { color:#eaf1f9; margin-bottom:20px;}
+.info-cus h4{ font-size:20px;}
+.info-cus h4 small{ color:#eaf1f9; font-size:14px; margin:auto 6px;}
+.info-cus .btn{ width:70px; height:24px; line-height:24px; padding:0; background:#333d44; color:#fff; border-color:#445059;}
+.info-cus span{ margin-right:10%;}
+
+
+.pill-cus li a{ font-size:12px;color:#93a5b8;border:#445059 solid 1px; width:94px; padding-top:0; padding-bottom:0; text-align:center;}
+.pill-cus li.active a,.pill-cus li.active a:hover,.pill-cus li.active a:focus{ background:#009ee6; border:#009ee6 solid 1px ; border-radius: 0px; color:#fff;}
+.pill-cus li a:hover ,.pill-cus li a:focus{ background:#009ee6; border:none ;  border-radius: 0px; color:#fff;border:#009ee6 solid 1px ; }
+
+a.tool{ color:#93a5b8; border-radius:0; width:40px; text-align:left; font-size:12px; float:left;}
+a.tool span{ display:none;}
+ a.tool:hover, a.tool:active, a.tool:focus{ color:#fff;}
+ a.tool:focus{ background:#009ee6;}
+ a.tool:focus i{ color:#fff;}
+.tool i{ color:#009ee6; font-size:120%;}
+.pad-cus{ margin:10px 0;}
+ .pad-top-cus{ padding:0; width:100%}
+.with-cus{ width:100%;}
+.with-cus > div.row{ padding: 0 15px;}
+
+.with-cus > div.info-cus,.with-cus > div > pill-cus{ padding-left:5%;}
+
+.well{ border:none; color:#fff;}
+
+.news li a{ color:#a9bed4; display:block; font-weight:normal; line-height:26px; font-size:14px;}
+.news li { list-style:none; background:url(../images/dot.png) left center no-repeat; padding-left:8px;}
+.news a:hover{ color:#088dcb; font-weight:bold; text-decoration:none;}
+.news a > span{ color:#a9bed4; float:left; color:#728190;display:block; width:100%;}
+.news-tit{ color:#eaf1f9; padding:0 15px;}
+.news-tit a{ float:right; font-size:12px; color:#eaf1f9;}
+.news-tit a:hover{ color:#088dcb; text-decoration:none;}
+.news{ padding:30px 20px;}
+
+.foot{ background-color:#16191c; color:#babbbb; margin-top:8px; padding:16px 0;}
+/* 小屏幕（平板，大于等于 768px） */
+@media (min-width:768px) { a.tool span{ display:inline-block;} a.tool{ width:25%;} .news a > span{ color:#a9bed4; float:right; color:#728190; display:inline; width:auto;}.search-box{  margin:0;}}
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media (min-width: 992px) {  }
+
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media (min-width:1200px) { .with-cus{ width:87%;} a.tool{  width:100%; } .pad-top-cus{ padding:40px 0 0 0; width:13%}
+.fix{ position:absolute; left:100%;top:0; z-index:999;}}

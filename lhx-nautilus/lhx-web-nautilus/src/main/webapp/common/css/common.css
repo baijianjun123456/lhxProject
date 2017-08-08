@@ -1,0 +1,56 @@
+#searchq table{
+	 width:100%;
+} 
+
+#searchq .searchTab td.title{
+	
+	width:7%;
+	text-align:right;
+}
+
+#searchq .searchTab td.content{
+	width:13%;
+	text-align:left;
+	padding-left:10px;
+}
+
+#searchq .searchTab a.buttonq{
+	margin:10px;
+}
+
+#addForm table{
+	 width:100%;
+} 
+
+#addForm .addTab td{
+	height:50px;
+}
+
+#addForm .addTab td.title{
+	
+	width:10%;
+	text-align:right;
+}
+
+#addForm .addTab td.content{
+	width:30%;
+	text-align:left;
+	padding-left:10px;
+}
+
+#addForm .addTab a.buttonq{
+	margin:10px;
+}
+
+ .radioSpan {
+
+   vertical-align: middle;
+   
+   text-align:left;
+
+ }
+
+  .radioSpan input{
+  		margin-right:15px;
+  		margin-left:15px;
+  }

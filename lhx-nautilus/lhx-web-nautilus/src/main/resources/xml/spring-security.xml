@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		   http://www.springframework.org/schema/security
+		   http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+		   
+
+	<!-- 静态资源集中过滤 不需要访问权限限制 -->
+	<http pattern="/**/*.js" security="none"/>
+	<http pattern="/**/*.css" security="none"/>
+	<http pattern="/**/*.png" security="none"/>
+	<http pattern="/**/*.gif" security="none"/>
+	<http pattern="/**/*.jpg" security="none"/>
+	
+	<!-- 可追加多个登录入口 -->
+	<http pattern="/system/login/login.do" security="none"/>
+    
+    <!-- access-decision-manager-ref：指定了自定义的访问策略管理器。当系统角色名的前缀不是默认的ROLE_时，需要自定义访问策略管理器。 -->
+	<http  auto-config = "false" entry-point-ref="authenticationEntryPoint"
+		use-expressions="true">
+		<!-- 报文头 -->
+		<headers>
+			<frame-options policy="SAMEORIGIN"/>  <!-- 影响iframe使用 -->
+		</headers>
+
+		<!-- 访问拒绝时转向的页面：根据入口、访问方式不同，转向不同的拒绝页面。 -->
+		<access-denied-handler ref="lhxAccessDeniedHandler"/>
+
+		<csrf disabled="true"/>
+		
+		<!-- 认证和授权 -->
+		<!-- 增加一个自定义的filter，放在FILTER_SECURITY_INTERCEPTOR之前，实现用户、角色、权限、资源的数据库管理。 -->
+		<!-- FILTER_SECURITY_INTERCEPTOR是Spring Security默认的Filter，自定义的Filter必须在它之前，过滤用户请求 -->
+		<custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+		
+
+		<!-- 等同于 form-login -->
+		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
+		<custom-filter ref="ajaxLoginFilter" before="FORM_LOGIN_FILTER"/>
+
+	
+
+		<!-- none newSession migrateSession changeSessionId -->
+		<session-management session-fixation-protection="newSession" invalid-session-url="/common/error/sessionOut.jsp">
+			<!-- 无exceptionIfMaximumExceeded -->
+			<concurrency-control max-sessions="1000" expired-url="/common/jsp/error/sessionOut.jsp" error-if-maximum-exceeded="true"/>
+		</session-management>
+		
+		<!-- cookie中保留的session信息 -->
+		<remember-me key="pcecpkey"/>
+
+		<logout logout-url="/loginOut" invalidate-session="false" delete-cookies="JSESSIONID,MYJSESSIONID" success-handler-ref="logoutHandler"/>
+	</http>
+	
+	<beans:bean id="authenticationEntryPoint" class="com.lhx.common.security.LhxAuthenticationEntryPoint">
+		<!-- 只能使用相对路径，绝对路径:会扔异常 设定首页,可以是index\login -->
+		<beans:constructor-arg name="loginFormUrl" value="/system/login/login.jsp"/>
+	</beans:bean>
+	
+	<beans:bean id="logoutHandler" class="com.lhx.common.security.LhxLogoutHandler">
+		<beans:property name="logoutSuccessUrl" value="/system/login/login.do"></beans:property>
+	</beans:bean>
+	
+	<!-- 访问管理器 -->
+	<beans:bean id="loginFilter" class="com.lhx.common.security.LoginFilter">
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check"></beans:property>
+		<beans:property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="lhxAuthenticationManager"></beans:property>
+	</beans:bean>
+	
+	<!-- 访问管理器(ajax) -->
+	<beans:bean id="ajaxLoginFilter" class="com.lhx.common.security.LoginFilter">
+		<beans:property name="checkCode" value="false"></beans:property>
+		<beans:property name="filterProcessesUrl" value="/ajaxlogin"></beans:property>
+		<beans:property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="lhxAuthenticationManager"></beans:property>
+	</beans:bean>
+	
+<!-- 	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="authenticationProvider"/>
+	</authentication-manager>
+	 -->
+	<beans:bean id="authenticationProvider" class="com.lhx.common.security.AuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailService"/>
+		<beans:property name="hideUserNotFoundExceptions" value="false"/>
+		<beans:property name="passwordEncoder" ref="passwordEncoder"/>
+	</beans:bean>	
+	
+	<!-- 认证过滤器：判断用户有没有访问特定资源的权限 -->
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性。 -->
+	<beans:bean id="securityFilter" class="com.lhx.common.security.LhxFilterSecurityInterceptor">
+<!-- 		<beans:property name="udpUserService" ref="iUdpAllUserInfoService"/>
+ -->		<!-- 用户拥有的权限 -->
+		<beans:property name="authenticationManager" ref="lhxAuthenticationManager"/>
+		<!-- 用户是否拥有所请求资源的权限 -->
+		<beans:property name="accessDecisionManager" ref="lhxAccessDecisionManager"/>
+		<!-- 资源与权限对应关系 -->
+		<beans:property name="securityMetadataSource" ref="lhxSecurityMetadataSourceService"/>
+		
+		<beans:property name="errorPage" value="/common/jsp/error/error406.jsp"/>
+		
+	</beans:bean>
+
+    <beans:bean id="userDetailService" class="com.lhx.common.security.UserDetailService" />
+     
+       										
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+	</beans:bean>
+	
+	<!-- 登录的切入点 可session入口参数自定义登录后的欢迎主页 -->
+	<beans:bean id="loginAuthenticationSuccessHandler" class="com.lhx.common.security.LoginLogAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/system/login/welcome.do"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="loginAuthenticationFailureHandler"
+		class="com.lhx.common.security.LoginAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/common/jsp/error/error.jsp"/>
+		<beans:property name="exceptionMappings">
+			<beans:map>
+				<!--用户不存在  -->
+				<beans:entry value="login_errorcode_001"
+					         key="org.springframework.security.core.userdetails.UsernameNotFoundException"/>
+					         
+				<!--凭证错误(密码不正确)-->
+				<beans:entry value="login_errorcode_002"
+					         key="org.springframework.security.authentication.BadCredentialsException"/>
+					         
+				<!--用户不可用-->
+				<beans:entry value="login_errorcode_003"
+					         key="org.springframework.security.authentication.DisabledException"/>
+				<!-- 验证码错误 -->	
+				<!-- <beans:entry value="login_errorcode_005"
+					         key="org.springframework.security.authentication.AuthenticationServiceException"/>
+					         
+				其他通用错误
+				<beans:entry value="login_errorcode_006"
+					         key="org.springframework.security.authentication.InternalAuthenticationServiceException"/> -->
+			</beans:map>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 访问被拒时，登录前/登录后转向不同页面 -->
+	<beans:bean id="lhxAccessDeniedHandler"
+		class="com.lhx.common.security.LhxAccessDeniedHandler">
+		<beans:property name="errorPage" value="/common/errorPage.jsp?sign=refuse"/>
+	</beans:bean>
+	   
+    <beans:bean id="lhxSecurityMetadataSourceService" class="com.lhx.common.security.LhxSecurityMetadataSourceService" />
+	
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。 -->
+	<beans:bean id="lhxAccessDecisionManager" class="com.lhx.common.security.LhxAccessDecisionManager">
+		<!-- 没有显式定义的资源都保护起来。该属性默认值为false -->
+		<beans:property name="allowIfAllAbstainDecisions" value="false"/>
+	</beans:bean>
+	
+	<!-- 用户拥有的权限：登录后取得用户所保有的权限信息 -->
+	<!-- 认证配置,使用userDetailsService提供的用户信息,实现了UserDetailsService的Bean -->
+	<authentication-manager alias="lhxAuthenticationManager">
+		<authentication-provider ref="authenticationProvider"/>
+	</authentication-manager>
+	
+	<!-- 无session状态的白名单(URL支持静态资源分离) -->
+	<beans:bean id="trustUrlListForNoSession"
+		class="com.lhx.common.security.utils.TrustUrlListForNoSession">
+		<beans:property name="trustList">
+			<beans:list>
+				<beans:value>/system/login/login.do</beans:value>
+				<beans:value>/system/login/welcome.do</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 有session下无需校验权限的公共白名单(URL) -->
+	<beans:bean id="trustUrlListForValidSession"
+		class="com.lhx.common.security.utils.TrustUrlListForValidSession">
+		<beans:property name="trustList">
+			<beans:list>
+				<!-- url -->
+				<beans:value>/system/login/welcome.do</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+		
+</beans:beans>  
