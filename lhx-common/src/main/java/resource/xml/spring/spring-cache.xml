@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+    http://www.springframework.org/schema/cache 
+    http://www.springframework.org/schema/cache/spring-cache-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效 -->
+	<cache:annotation-driven cache-manager="cacheManager"/>  
+	
+	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->  
+	<!-- EhCache library setup -->  
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"   p:configLocation="classpath:/resource/xml/spring/ehcache.xml"/>  
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"  p:cacheManager-ref="ehcache"/>  
+	
+	<!-- 业务缓存接口实现类 -->
+	<!-- ehcache服务接口 -->
+	<bean id="busCacheManager" class="com.lhx.cache.ehcache.manager.EHcacheManager"  scope="prototype"/>  
+	<!-- memcache服务接口 -->
+	<!-- <bean id="busCacheManager" class="com.lhx.cache.memcache.manager.MemcacheManagerImpl"  /> -->
+	
+	<bean id="cacheTool" class="com.lhx.cache.utils.CacheUtil"  />
+
+<cache:annotation-driven /> 
+</beans>

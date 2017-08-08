@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"> 
+          
+   <!-- rmi远程cache服务 -->
+   <!--<cacheManagerPeerProviderFactory class= "net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"   properties="peerDiscovery=manual,rmiUrls=//localhost:8080/service2"/>  -->
+<!--    <cacheManagerPeerProviderFactory  class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"  properties="peerDiscovery=automatic, multicastGroupAddress=127.0.0.1, multicastGroupPort=8080,multicastPacketTimeToLive=30" />
+ -->      
+	
+   <!-- rmi本地cache服务 -->
+<!--    <cacheManagerPeerListenerFactory   class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"  properties="hostName=localhost,port=8880 , socketTimeoutMillis=120000"/> 
+ -->     
+    <defaultCache 
+            maxElementsInMemory="10000"   
+            eternal="false"               
+            timeToIdleSeconds="120"  
+            timeToLiveSeconds="120"  
+            overflowToDisk="true"         
+            diskSpoolBufferSizeMB="30"  
+            maxElementsOnDisk="10000000"  
+            diskPersistent="false"  
+            diskExpiryThreadIntervalSeconds="120"  
+            memoryStoreEvictionPolicy="LRU">  
+    </defaultCache>  
+    <cache name="DictData"  
+           maxElementsInMemory="1000"  
+           eternal="false"  
+           timeToIdleSeconds="100000"  
+           timeToLiveSeconds="100000"  
+           overflowToDisk="false"> 
+           <searchable>
+	         <searchAttribute name="pcode"/>
+	         <searchAttribute name="code"/>
+	      </searchable> 
+    </cache>   
+ 
+ <!-- 
+ <defaultCache 
+            maxElementsInMemory="10000"   //内存中最大缓存对象数 
+            maxElementsOnDisk="10000"     //硬盘中最大缓存对象数，若是0表示无穷大
+            overflowToDisk="10000"        //如果内存中数据超过内存限制，是否要缓存到磁盘上
+            eternal="false"               //true表示对象永不过期，此时会忽略timeToIdleSeconds和timeToLiveSeconds属性，默认为false
+            timeToIdleSeconds="120"       //定允许对象处于空闲状态的最长时间，以秒为单位。当对象自从最近一次被访问后，如果处于空闲状态的时间超过了timeToIdleSeconds属性值，这个对象就会过期，EHCache将把它从缓存中清空。只有当eternal属性为false，该属性才有效。如果该属性值为0，则表示对象可以无限期地处于空闲状态
+            timeToLiveSeconds="120"       //设定对象允许存在于缓存中的最长时间，以秒为单位。当对象自从被存放到缓存中后，如果处于缓存中的时间超过了 timeToLiveSeconds属性值，这个对象就会过期，EHCache将把它从缓存中清除。只有当eternal属性为false，该属性才有效。如果该属性值为0，则表示对象可以无限期地存在于缓存中。timeToLiveSeconds必须大于timeToIdleSeconds属性，才有意义  
+            overflowToDisk="true"         //true表示当内存缓存的对象数目达到了maxElementsInMemory界限后，会把溢出的对象写到硬盘缓存中。注意：如果缓存的对象要写入到硬盘中的话，则该对象必须实现了Serializable接口才行。 
+            diskSpoolBufferSizeMB="30"    //磁盘缓存区大小，默认为30MB。每个Cache都应该有自己的一个缓存区
+            diskPersistent="false"        //是否缓存虚拟机重启期数据
+            diskExpiryThreadIntervalSeconds="120"  //磁盘失效线程运行时间间隔，默认为120秒 
+            memoryStoreEvictionPolicy="LRU">
+           <cacheEventListenerFactory  class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>       
+  --> 
+</ehcache>  
