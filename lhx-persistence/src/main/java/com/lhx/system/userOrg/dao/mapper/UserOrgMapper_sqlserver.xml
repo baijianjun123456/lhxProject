@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.userOrg.dao.UserOrgDao">
+	<select id="query" parameterType="java.lang.String" resultType="com.lhx.system.userOrg.model.UserOrg">
+		  SELECT * FROM LHX_T_SYS_USER_ORG WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.userOrg.model.UserOrg" resultType="com.lhx.system.userOrg.model.UserOrg"> 
+		SELECT * FROM LHX_T_SYS_USER_ORG WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			 AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="showName != null and showName != ''">
+			 AND SHOW_NAME = #{showName,jdbcType=VARCHAR}
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			 AND ORDER_BY = #{orderBy,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	<insert id="save" parameterType="com.lhx.system.userOrg.model.UserOrg">
+		INSERT INTO LHX_T_SYS_USER_ORG (ID_,ORG_ID,SHOW_NAME,ORDER_BY,CREATET,CREATEP,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},#{showName,jdbcType=VARCHAR},#{orderBy,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_USER_ORG SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="orgId != null and orgId != ''">
+			, ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="showName != null and showName != ''">
+			, SHOW_NAME = #{showName,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			, ORDER_BY = #{orderBy,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_SYS_USER_ORG WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.user.dao.UserDao">
+	<select id="query" parameterType="java.lang.String" resultType="com.lhx.system.user.model.User">
+		  SELECT * FROM LHX_T_SYS_USER WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.user.model.User" resultType="com.lhx.system.user.model.User"> 
+		SELECT * FROM LHX_T_SYS_USER WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			 AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgLevel != null and orgLevel != ''">
+			 AND ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="orgIdenty != null and orgIdenty != ''">
+			 AND ORG_IDENTY = #{orgIdenty,jdbcType=VARCHAR}
+		</if>
+		<if test="password != null and password != ''">
+			 AND PASSWORD = #{password,jdbcType=VARCHAR}
+		</if>
+		<if test="accounts != null and accounts != ''">
+			 AND ACCOUNTS = #{accounts,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			 AND NAME_SPELL = #{nameSpell,jdbcType=VARCHAR}
+		</if>
+		<if test="sex != null and sex != ''">
+			 AND SEX = #{sex,jdbcType=VARCHAR}
+		</if>
+		<if test="themId != null and themId != ''">
+			 AND THEM_ID = #{themId,jdbcType=VARCHAR}
+		</if>
+		<if test="headImageId != null and headImageId != ''">
+			 AND HEAD_IMAGE_ID = #{headImageId,jdbcType=VARCHAR}
+		</if>
+		<if test="bindId != null and bindId != ''">
+			 AND BIND_ID = #{bindId,jdbcType=VARCHAR}
+		</if>
+		<if test="effectDate != null and effectDate != ''">
+			 AND EFFECT_DATE = #{effectDate,jdbcType=VARCHAR}
+		</if>
+		<if test="cancelDate != null and cancelDate != ''">
+			 AND CANCEL_DATE = #{cancelDate,jdbcType=VARCHAR}
+		</if>
+		<if test="phone != null and phone != ''">
+			 AND PHONE = #{phone,jdbcType=VARCHAR}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			 AND MOBILE = #{mobile,jdbcType=VARCHAR}
+		</if>
+		<if test="qq != null and qq != ''">
+			 AND QQ = #{qq,jdbcType=VARCHAR}
+		</if>
+		<if test="wx != null and wx != ''">
+			 AND WX = #{wx,jdbcType=VARCHAR}
+		</if>
+		<if test="email != null and email != ''">
+			 AND Email = #{email,jdbcType=VARCHAR}
+		</if>
+		<if test="isOline != null and isOline != ''">
+			 AND IS_OLINE = #{isOline,jdbcType=VARCHAR}
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			 AND ORDER_BY = #{orderBy,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" parameterType="com.lhx.system.user.model.UserQuery" resultType="com.lhx.system.user.model.User"> 
+		SELECT * FROM LHX_T_SYS_USER WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="accounts != null and accounts != ''">
+			 AND ACCOUNTS = #{accounts,jdbcType=VARCHAR}
+		</if>
+		<if test="email != null and email != ''">
+			 AND EMAIL = #{email,jdbcType=VARCHAR}
+		</if>		
+		<if test="mobile != null and mobile != ''">
+			 AND MOBILE = #{mobile,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{mobile,jdbcType=VARCHAR}
+		</if>		
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.user.model.User">
+		INSERT INTO LHX_T_SYS_USER (ID_,ORG_ID,ORG_LEVEL,ORG_IDENTY,PASSWORD,ACCOUNTS,NAME,NAME_SPELL,SEX,THEM_ID,HEAD_IMAGE_ID,BIND_ID,EFFECT_DATE,CANCEL_DATE,PHONE,MOBILE,QQ,WX,Email,IS_OLINE,ORDER_BY,CREATET,CREATEP,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},#{orgLevel,jdbcType=VARCHAR},#{orgIdenty,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{accounts,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{nameSpell,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{themId,jdbcType=VARCHAR},#{headImageId,jdbcType=VARCHAR},#{bindId,jdbcType=VARCHAR},#{effectDate,jdbcType=VARCHAR},#{cancelDate,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{qq,jdbcType=VARCHAR},#{wx,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{isOline,jdbcType=VARCHAR},#{orderBy,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_USER SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="orgId != null and orgId != ''">
+			, ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgLevel != null and orgLevel != ''">
+			, ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgIdenty != null and orgIdenty != ''">
+			, ORG_IDENTY = #{orgIdenty,jdbcType=VARCHAR} 
+		</if>
+		<if test="password != null and password != ''">
+			, PASSWORD = #{password,jdbcType=VARCHAR} 
+		</if>
+		<if test="accounts != null and accounts != ''">
+			, ACCOUNTS = #{accounts,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name != ''">
+			, NAME = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			, NAME_SPELL = #{nameSpell,jdbcType=VARCHAR} 
+		</if>
+		<if test="sex != null and sex != ''">
+			, SEX = #{sex,jdbcType=VARCHAR} 
+		</if>
+		<if test="themId != null and themId != ''">
+			, THEM_ID = #{themId,jdbcType=VARCHAR} 
+		</if>
+		<if test="headImageId != null and headImageId != ''">
+			, HEAD_IMAGE_ID = #{headImageId,jdbcType=VARCHAR} 
+		</if>
+		<if test="bindId != null and bindId != ''">
+			, BIND_ID = #{bindId,jdbcType=VARCHAR} 
+		</if>
+		<if test="effectDate != null and effectDate != ''">
+			, EFFECT_DATE = #{effectDate,jdbcType=VARCHAR} 
+		</if>
+		<if test="cancelDate != null and cancelDate != ''">
+			, CANCEL_DATE = #{cancelDate,jdbcType=VARCHAR} 
+		</if>
+		<if test="phone != null and phone != ''">
+			, PHONE = #{phone,jdbcType=VARCHAR} 
+		</if>
+		<if test="mobile != null and mobile != ''">
+			, MOBILE = #{mobile,jdbcType=VARCHAR} 
+		</if>
+		<if test="qq != null and qq != ''">
+			, QQ = #{qq,jdbcType=VARCHAR} 
+		</if>
+		<if test="wx != null and wx != ''">
+			, WX = #{wx,jdbcType=VARCHAR} 
+		</if>
+		<if test="email != null and email != ''">
+			, Email = #{email,jdbcType=VARCHAR} 
+		</if>
+		<if test="isOline != null and isOline != ''">
+			, IS_OLINE = #{isOline,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			, ORDER_BY = #{orderBy,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM  LHX_T_SYS_USER WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

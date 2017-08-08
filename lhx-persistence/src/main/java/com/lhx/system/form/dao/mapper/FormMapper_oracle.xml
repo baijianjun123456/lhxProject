@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.form.dao.FormDao">
+	<select id="query" parameterType="java.lang.String" resultType="com.lhx.system.form.model.Form">
+		  SELECT * FROM LHX_T_SYS_FORM_FILED_DEF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.form.model.Form" resultType="com.lhx.system.form.model.Form"> 
+		SELECT * FROM LHX_T_SYS_FORM_FILED_DEF WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="tableName != null and tableName != ''">
+			 AND TABLE_NAME = #{tableName,jdbcType=VARCHAR}
+		</if>
+		<if test="columnName != null and columnName != ''">
+			 AND COLUMN_NAME = #{columnName,jdbcType=VARCHAR}
+		</if>
+		<if test="columnNameCh != null and columnNameCh != ''">
+			 AND COLUMN_NAME_CH = #{columnNameCh,jdbcType=VARCHAR}
+		</if>
+		<if test="dataType != null and dataType != ''">
+			 AND DATA_TYPE = #{dataType,jdbcType=VARCHAR}
+		</if>
+		<if test="dataLength != null and dataLength != ''">
+			 AND DATA_LENGTH = #{dataLength,jdbcType=VARCHAR}
+		</if>
+		<if test="displayLength != null and displayLength != ''">
+			 AND DISPLAY_LENGTH = #{displayLength,jdbcType=VARCHAR}
+		</if>
+		<if test="nullable5 != null and nullable5 != ''">
+			 AND NULLABLE5 = #{nullable5,jdbcType=VARCHAR}
+		</if>
+		<if test="isSearch != null and isSearch != ''">
+			 AND IS_SEARCH = #{isSearch,jdbcType=VARCHAR}
+		</if>
+		<if test="isList != null and isList != ''">
+			 AND IS_LIST = #{isList,jdbcType=VARCHAR}
+		</if>
+		<if test="isEdit != null and isEdit != ''">
+			 AND IS_EDIT = #{isEdit,jdbcType=VARCHAR}
+		</if>
+		<if test="sourceType != null and sourceType != ''">
+			 AND SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR}
+		</if>
+		<if test="sourceValue != null and sourceValue != ''">
+			 AND SOURCE_VALUE = #{sourceValue,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultType="com.lhx.system.form.model.Form" parameterType="com.lhx.system.form.model.FormQuery"> 
+		SELECT * FROM LHX_T_SYS_FORM_FILED_DEF WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.form.model.Form">
+		INSERT INTO LHX_T_SYS_FORM_FILED_DEF (ID_,TABLE_NAME,COLUMN_NAME,COLUMN_NAME_CH,DATA_TYPE,DATA_LENGTH,DISPLAY_LENGTH,NULLABLE5,IS_SEARCH,IS_LIST,IS_EDIT,SOURCE_TYPE,SOURCE_VALUE) VALUES(#{id_,jdbcType=VARCHAR},#{tableName,jdbcType=VARCHAR},#{columnName,jdbcType=VARCHAR},#{columnNameCh,jdbcType=VARCHAR},#{dataType,jdbcType=VARCHAR},#{dataLength,jdbcType=VARCHAR},#{displayLength,jdbcType=VARCHAR},#{nullable5,jdbcType=VARCHAR},#{isSearch,jdbcType=VARCHAR},#{isList,jdbcType=VARCHAR},#{isEdit,jdbcType=VARCHAR},#{sourceType,jdbcType=VARCHAR},#{sourceValue,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_FORM_FILED_DEF SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="tableName != null and tableName != ''">
+			, TABLE_NAME = #{tableName,jdbcType=VARCHAR} 
+		</if>
+		<if test="columnName != null and columnName != ''">
+			, COLUMN_NAME = #{columnName,jdbcType=VARCHAR} 
+		</if>
+		<if test="columnNameCh != null and columnNameCh != ''">
+			, COLUMN_NAME_CH = #{columnNameCh,jdbcType=VARCHAR} 
+		</if>
+		<if test="dataType != null and dataType != ''">
+			, DATA_TYPE = #{dataType,jdbcType=VARCHAR} 
+		</if>
+		<if test="dataLength != null and dataLength != ''">
+			, DATA_LENGTH = #{dataLength,jdbcType=VARCHAR} 
+		</if>
+		<if test="displayLength != null and displayLength != ''">
+			, DISPLAY_LENGTH = #{displayLength,jdbcType=VARCHAR} 
+		</if>
+		<if test="nullable5 != null and nullable5 != ''">
+			, NULLABLE5 = #{nullable5,jdbcType=VARCHAR} 
+		</if>
+		<if test="isSearch != null and isSearch != ''">
+			, IS_SEARCH = #{isSearch,jdbcType=VARCHAR} 
+		</if>
+		<if test="isList != null and isList != ''">
+			, IS_LIST = #{isList,jdbcType=VARCHAR} 
+		</if>
+		<if test="isEdit != null and isEdit != ''">
+			, IS_EDIT = #{isEdit,jdbcType=VARCHAR} 
+		</if>
+		<if test="sourceType != null and sourceType != ''">
+			, SOURCE_TYPE = #{sourceType,jdbcType=VARCHAR} 
+		</if>
+		<if test="sourceValue != null and sourceValue != ''">
+			, SOURCE_VALUE = #{sourceValue,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_SYS_FORM_FILED_DEF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

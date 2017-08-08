@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.menu.dao.MenuDao">
+
+	<resultMap type="com.lhx.system.menu.model.Menu" id="resultMenu">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="pid" column="PID" javaType="String" jdbcType="VARCHAR" />
+		<result property="name" column="NAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="nameSpell" column="NAME_SPELL" javaType="String" jdbcType="VARCHAR" />
+		<result property="code" column="CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="url" column="URL" javaType="String" jdbcType="VARCHAR" />
+		<result property="level_" column="LEVEL_" javaType="String" jdbcType="VARCHAR" />
+		<result property="ico" column="ICO" javaType="String" jdbcType="VARCHAR" />
+		<result property="orderBy" column="ORDER_BY" javaType="String" jdbcType="VARCHAR" />
+		<result property="createt" column="CREATET" javaType="String" jdbcType="VARCHAR" />
+		<result property="createp" column="CREATEP" javaType="String" jdbcType="VARCHAR" />
+		<result property="status" column="STATUS" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultMenu">
+		  SELECT * FROM LHX_T_SYS_MENU WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.menu.model.Menu" resultMap="resultMenu"> 
+		SELECT * FROM LHX_T_SYS_MENU WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="pid != null and pid != ''">
+			 AND PID = #{pid,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			 AND NAME_SPELL = #{nameSpell,jdbcType=VARCHAR}
+		</if>
+		<if test="code != null and code != ''">
+			 AND CODE = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="url != null and url != ''">
+			 AND URL = #{url,jdbcType=VARCHAR}
+		</if>
+		<if test="level_ != null and level_ != ''">
+			 AND LEVEL_ = #{level_,jdbcType=VARCHAR}
+		</if>
+		<if test="ico != null and ico != ''">
+			 AND ICO = #{ico,jdbcType=VARCHAR}
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			 AND ORDER_BY = #{orderBy,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<resultMap id="menuTreeModel" type="com.lhx.common.tree.MenuTreeModel">
+        <result property="text" column="NAME" javaType="String" jdbcType="VARCHAR"/>
+        <result property="id" column="CODE" javaType="String" jdbcType="VARCHAR"/>
+        <collection property="children"  column="code" ofType="com.lhx.common.tree.MenuTreeModel"  select="queryMenuCHildTree"></collection> 
+    </resultMap>
+    
+   <select id="queryMenuAllTree" resultMap="menuTreeModel" >
+        SELECT NAME,CODE,STATUS,PID FROM LHX_T_SYS_MENU WHERE STATUS = '1' and CODE = '000000'
+   </select>
+    
+    <select id="queryMenuCHildTree" resultMap="menuTreeModel" parameterType="String">
+        SELECT NAME,CODE,STATUS,PID FROM LHX_T_SYS_MENU WHERE STATUS = '1' and pid=#{id}
+    </select>
+    
+  <resultMap id="menuTreeModelByRole" type="com.lhx.common.tree.MenuTreeModel">
+        <result property="text" column="NAME" javaType="String" jdbcType="VARCHAR"/>
+        <result property="id" column="CODE" javaType="String" jdbcType="VARCHAR"/>
+        <result property="roleId" column="roleId" javaType="String" jdbcType="VARCHAR"/>
+        <result property="checked" column="CHECKBOX" javaType="boolean" jdbcType="VARCHAR"/>
+        <collection property="children"  column="{code=code,roleId=roleId}" ofType="com.lhx.common.tree.MenuTreeModel"  select="queryMenuCHildTreeByRole"></collection> 
+    </resultMap>
+    
+   <select id="queryMenuAllTreeByRole" resultMap="menuTreeModelByRole"  parameterType="java.util.Map">
+        SELECT ltsm.NAME as NAME,ltsm.CODE AS CODE,ltsm.STATUS AS STATUS,ltsm.PID AS PID ,ltsr.CHECKBOX AS CHECKBOX,ltsr.ROLE_ID AS roleId  FROM (SELECT * FROM LHX_T_SYS_MENU WHERE  STATUS = '1' and CODE = '000000') ltsm  left  join (SELECT 'true' as  CHECKBOX,MENU_ID,ROLE_ID  FROM LHX_T_SYS_ROLE_MENU WHERE ROLE_ID = #{roleId}) ltsr on ltsm.code=ltsr.MENU_ID
+   </select>
+    
+    <select id="queryMenuCHildTreeByRole" resultMap="menuTreeModelByRole" parameterType="java.util.Map">
+        SELECT ltsm.NAME as NAME,ltsm.CODE AS CODE,ltsm.STATUS AS STATUS,ltsm.PID AS PID ,ltsr.CHECKBOX AS CHECKBOX,ltsr.ROLE_ID AS roleId   FROM (SELECT * FROM LHX_T_SYS_MENU WHERE  STATUS = '1' and pid=#{code}) ltsm  left  join (SELECT 'true' as  CHECKBOX,MENU_ID,ROLE_ID  FROM LHX_T_SYS_ROLE_MENU WHERE ROLE_ID = #{roleId}) ltsr on ltsm.CODE=ltsr.MENU_ID
+    </select>
+	
+	<select id="queryListPage" resultMap="resultMenu" parameterType="com.lhx.system.menu.model.MenuQuery"> 
+		SELECT * FROM LHX_T_SYS_MENU WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="pid != null and pid != ''">
+			 AND PID = #{pid,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.menu.model.Menu">
+		INSERT INTO LHX_T_SYS_MENU (ID_,PID,NAME,NAME_SPELL,CODE,URL,LEVEL_,ICO,ORDER_BY,CREATET,CREATEP,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{pid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{nameSpell,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{level_,jdbcType=VARCHAR},#{ico,jdbcType=VARCHAR},#{orderBy,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_MENU SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="pid != null and pid != ''">
+			, PID = #{pid,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name != ''">
+			, NAME = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			, NAME_SPELL = #{nameSpell,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code != ''">
+			, CODE = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="url != null and url != ''">
+			, URL = #{url,jdbcType=VARCHAR} 
+		</if>
+		<if test="level_ != null and level_ != ''">
+			, LEVEL_ = #{level_,jdbcType=VARCHAR} 
+		</if>
+		<if test="ico != null and ico != ''">
+			, ICO = #{ico,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			, ORDER_BY = #{orderBy,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_SYS_MENU WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

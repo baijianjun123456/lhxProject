@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.common.mybatis.dao.TabColDao">
+	
+	<resultMap type="com.lhx.file.model.TabColModel" id="resultTabColModel">
+	  <result property="tableName" column="TABLE_NAME"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="columnName" column="COLUMN_NAME" javaType="string" jdbcType="VARCHAR"/>
+	  <result property="columnNameCN" column="COLUMN_NAME_CH" javaType="string" jdbcType="VARCHAR"/>
+	  
+	  <result property="DBDataType" column="DATA_TYPE" javaType="string" jdbcType="VARCHAR"/>
+	  <result property="dataLength" column="DATA_LENGTH"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="columnComments" column="COMMENTS"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="isNull" column="NULLABLE"  javaType="string" jdbcType="VARCHAR"/>
+	  
+	  <result property="isSearch" column="IS_SEARCH"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="isList" column="IS_LIST"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="isEdit" column="IS_EDIT"  javaType="string" jdbcType="VARCHAR"/>
+	  
+	  <result property="sourceType" column="SOURCE_TYPE"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="sourceValue" column="SOURCE_VALUE"  javaType="string" jdbcType="VARCHAR"/>
+	  
+	  <result property="displayLength" column="DISPLAY_LENGTH"  javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="queryList" parameterType="java.lang.String" resultMap="resultTabColModel"> 
+		SELECT TABLE_NAME,COLUMN_NAME,DATA_TYPE,IS_NULLABLE AS NULLABLE,CHARACTER_MAXIMUM_LENGTH AS DATA_LENGTH,COLUMN_COMMENT AS COMMENTS FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME=#{tableName,jdbcType=VARCHAR} AND TABLE_SCHEMA='LHX'
+	</select>
+	
+	<select id="queryFiledList" parameterType="java.lang.String" resultMap="resultTabColModel"> 
+		SELECT * from  LHX_T_SYS_FORM_FILED_DEF WHERE TABLE_NAME=#{tableName,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryTableList" resultType="java.util.Map"> 
+		select table_name,table_comment from information_schema.tables  where table_schema = 'lhx' 
+	</select>
+	
+</mapper>

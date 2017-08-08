@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.@classBusPath@.dao.@moduleName@Dao">
+
+	<resultMap type="com.lhx.@classBusPath@.model.@moduleName@" id="result@moduleName@">
+@mapResult@
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="result@moduleName@">
+		  SELECT * FROM @tableName@ WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.@classBusPath@.model.@moduleName@" resultMap="result@moduleName@"> 
+		SELECT * FROM @tableName@ WHERE 1 = 1 
+@whereCondition@
+	</select>
+	
+	<select id="queryListPage" resultMap="result@moduleName@" parameterType="com.lhx.@classBusPath@.model.@moduleName@Query"> 
+		SELECT * FROM @tableName@ WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.@classBusPath@.model.@moduleName@">
+		INSERT INTO @tableName@ (@tabColName@) VALUES(@tabValue@)
+	</insert>
+
+	<update id="update">
+		UPDATE @tableName@ SET ID_ = #{id_,jdbcType=VARCHAR}
+@updateFiled@
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE @tableName@ WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

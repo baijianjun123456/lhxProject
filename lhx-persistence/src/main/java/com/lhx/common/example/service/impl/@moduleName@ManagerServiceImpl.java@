@@ -1,0 +1,59 @@
+package com.lhx.@parentmoduleName@.service.impl;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.lhx.system.service.constants.SystemConstants;
+import com.lhx.@parentmoduleName@.service.@moduleName@ManagerService;
+import com.lhx.@classBusPath@.dao.@moduleName@Dao;
+import com.lhx.@classBusPath@.model.@moduleName@;
+import com.lhx.@classBusPath@.model.@moduleName@Query;
+
+@Service
+public class @moduleName@ManagerServiceImpl implements @moduleName@ManagerService {
+	
+    @Autowired
+	private @moduleName@Dao  @fmoduleName@Dao;
+    
+	@Override
+	public boolean add@moduleName@(@moduleName@ @fmoduleName@_) {
+		@fmoduleName@Dao.save(@fmoduleName@_);
+		return true;
+	}
+
+	@Override
+	public boolean remove@moduleName@(@moduleName@ @fmoduleName@_, boolean flag) {
+		if(flag){
+			@fmoduleName@Dao.delete(@fmoduleName@_.getId_());
+		}
+		else{
+			@fmoduleName@_.setStatus(SystemConstants.DELETE_STATE);
+			@fmoduleName@Dao.update(@fmoduleName@_);
+		}
+		return true;
+	}
+
+	@Override
+	public int update@moduleName@(@moduleName@ @fmoduleName@_) {
+		
+		return @fmoduleName@Dao.update(@fmoduleName@_);
+	}
+	
+	public @moduleName@ get(@moduleName@ @fmoduleName@_){
+		List<@moduleName@> @fmoduleName@List = @fmoduleName@Dao.queryList(@fmoduleName@_);
+		return (@fmoduleName@List == null || @fmoduleName@List.size() <= 0) ? null : @fmoduleName@List.get(0);
+	}
+	
+	public List<@moduleName@> getList(@moduleName@ @fmoduleName@_){
+		return @fmoduleName@Dao.queryList(@fmoduleName@_);
+	}
+	
+	public List<@moduleName@> getListPage(@moduleName@Query @fmoduleName@Query){
+		return @fmoduleName@Dao.queryListPage(@fmoduleName@Query);
+	}
+	
+	public @moduleName@ get(String id_){
+		return @fmoduleName@Dao.query(id_);
+	}
+
+}

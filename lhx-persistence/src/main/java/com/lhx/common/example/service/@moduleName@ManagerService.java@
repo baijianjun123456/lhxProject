@@ -1,0 +1,47 @@
+package com.lhx.@parentmoduleName@.service;
+
+import java.util.List;
+import com.lhx.@classBusPath@.model.@moduleName@;
+import com.lhx.@classBusPath@.model.@moduleName@Query;
+
+/**
+ * @moduleNameCH@管理相关服务接口
+ * @author liangshu
+ *
+ */
+public interface @moduleName@ManagerService {
+	
+	/**
+	 * 添加新@moduleNameCH@；
+	 * @param user：新增@moduleNameCH@目标对象；
+	 * @return：是否新增成功；
+	 */
+	public boolean add@moduleName@(@moduleName@ @fmoduleName@_);
+	
+	/**
+	 * 删除@moduleNameCH@；
+	 * @param user_:删除目标@moduleNameCH@对象信息；
+	 * @param flag：false:逻辑删除；true：物理删除;
+	 * @return
+	 */
+	public boolean  remove@moduleName@(@moduleName@ @fmoduleName@_,boolean flag);
+	
+	/**
+	 * 更新@moduleNameCH@信息；
+	 * @param user_：更新目标@moduleNameCH@对象信息；
+	 * @return : 被更新@moduleNameCH@的总条数
+	 */ 
+	public  int  update@moduleName@(@moduleName@ @fmoduleName@_);
+	
+	public List<@moduleName@> getList(@moduleName@ @fmoduleName@);
+
+	/**
+	 * 查询@moduleNameCH@列表-分页
+	 * @param userQuery
+	 * @return
+	 */
+	public List<@moduleName@> getListPage(@moduleName@Query @fmoduleName@Query);
+	
+	
+	public @moduleName@ get(String id_);
+}

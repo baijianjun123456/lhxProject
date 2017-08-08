@@ -1,0 +1,129 @@
+@columns@
+
+var tilte = "@moduleNameCH@列表";
+
+var page = null;
+$(function(){
+	if($("#type").val() == "list"){
+		page = new Page("@fmoduleName@List","@moduleNameCH@列表",columns,'add,remove,modify',basePath+"system/@fmoduleName@Manager/ajaxlist.do","@fmoduleName@SearchForm");
+		
+		$("#submitid").click(function(){page.doSearch();});
+	}
+	
+	if($("#clear@moduleName@").length > 0){
+		$("#clear@moduleName@").click(function(){$("#add@moduleName@Form").form('clear');});
+	};
+	
+	if($("#save@moduleName@").length > 0){
+		$("#save@moduleName@").click(function(){
+			var type = $("#type").val();
+			if(type == "add"){
+				save@moduleName@();
+			}
+			else if(type == "modify"){
+				update@moduleName@();
+			}
+		});
+	}
+});
+
+/**
+ * 创建新增@moduleNameCH@页签
+ */
+function addData(){
+	var addTabParam = {
+			"tabId":     "添加@moduleNameCH@",
+			"title":     "添加@moduleNameCH@",
+			  "url":      basePath+"system/@fmoduleName@Manager/page/add@moduleName@.do?type=add",
+		 "isUpdate":      true
+	};
+	window.parent.addTab(addTabParam);
+}
+
+/**
+ *创建更新@moduleNameCH@页签
+ */
+function modifyData(){
+	var id_ = page.getSelectRows(true).id_;
+	var modifyTabParam = {
+		  "tabId":     "添加@moduleNameCH@",
+		  "title":     "添加@moduleNameCH@",
+		  "url":      basePath+"system/@fmoduleName@Manager/page/add@moduleName@.do?type=modify&id_="+id_,
+	 "isUpdate":      true
+	};
+	
+	window.parent.addTab(modifyTabParam);
+}
+
+/**
+ *创建更新@moduleNameCH@页签
+ */
+function removeData(){
+	function success(data){
+		message.info("删除@moduleNameCH@","删除成功！");
+		page.doSearch();
+	}
+	
+	function error(data){
+		message.error("删除@moduleNameCH@","删除失败！");
+	}
+	
+	var id_ = page.getSelectRows(true).id_;
+
+	ajax.sendJsonRequest("POST",basePath+"system/@fmoduleName@Manager/delete@moduleName@.do?id_="+id_,null,success,error);
+			
+}
+
+
+function save@moduleName@(){
+	function success(data){
+	
+		function backup(){
+			reset@moduleName@();
+		}
+		
+		message.info("添加@moduleNameCH@","保存成功！",backup);
+	}
+	
+	function error(data){
+		message.error("添加@moduleNameCH@","保存失败！");
+	}
+	
+	if(!$("#add@moduleName@Form").form('validate')){
+		return false;
+	}
+	
+	ajax.sendJsonRequest("POST",basePath+"system/@fmoduleName@Manager/add@moduleName@.do",$("#add@moduleName@Form").serialize(),success,error);
+}
+
+function update@moduleName@(){
+	function success(data){
+		
+		function backup(){
+			window.parent.closeTab();
+		}
+		
+		message.info("更新@moduleNameCH@","更新成功！",backup);
+	}
+	
+	function error(data){
+		message.error("更新@moduleNameCH@","更新失败！");
+	}
+	
+	if(!$("#add@moduleName@Form").form('validate')){
+		return false;
+	}
+	
+	ajax.sendJsonRequest("POST",basePath+"system/@fmoduleName@Manager/update@moduleName@.do",$("#add@moduleName@Form").serialize(),success,error);
+}
+
+function tabOnSelect(){
+	if($("#type").val() == "list"){
+		page.doSearch();
+	}
+}
+
+function reset@moduleName@(){
+	$("#add@moduleName@Form").form('clear');
+}
+

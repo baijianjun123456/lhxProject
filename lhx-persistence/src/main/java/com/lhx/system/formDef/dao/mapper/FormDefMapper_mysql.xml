@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.formDef.dao.FormDefDao">
+
+	<resultMap type="com.lhx.system.formDef.model.FormDef" id="resultFormDef">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="formName" column="FORM_NAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="formType" column="FORM_TYPE" javaType="String" jdbcType="VARCHAR" />
+		<result property="formDesc" column="FORM_DESC" javaType="String" jdbcType="VARCHAR" />
+		<result property="formCode" column="FORM_CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="status" column="STATUS" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	<resultMap id="formTypeTreeModel" type="com.lhx.common.tree.FormTypeTreeModel">
+        <result property="text" column="NAME" javaType="String" jdbcType="VARCHAR"/>
+        <result property="id" column="CODE" javaType="String" jdbcType="VARCHAR"/>
+<!--         <association property="pCode" column="P_CODE" select="queryformTypeParentTree" />
+ -->        <collection property="children"  column="code" ofType="com.lhx.common.tree.FormTypeTreeModel"  select="queryformTypeCHildTree"></collection> 
+    </resultMap>
+    
+<!--      <resultMap id="subformTypeTreeModel" type="com.lhx.common.tree.FormTypeTreeModel" extends="formTypeTreeModel">
+        <collection property="formTypeTreeModelList" javaType="java.util.ArrayList" column="code"
+                    ofType="com.lhx.common.tree.FormTypeTreeModel" select="queryformTypeTree"></collection>
+    </resultMap>
+    
+     <resultMap id="formTypeTreeModelTreeResult" type="com.lhx.common.tree.FormTypeTreeModel"
+               extends="subformTypeTreeModel">
+        <collection property="formTypeTreeModelList" javaType="java.util.ArrayList" column="code"
+                    ofType="formTypeTreeModel" select="queryformTypeTree"></collection>
+    </resultMap> -->
+    
+    
+   <select id="queryformTypeAllTree" resultMap="formTypeTreeModel" >
+        SELECT * FROM (SELECT NAME,CODE,STATUS,P_CODE FROM LHX_T_FORM_TYPE
+		   UNION ALL
+		   SELECT FORM_NAME AS NAME,FORM_CODE,STATUS AS CODE,FORM_TYPE AS P_CODE FROM LHX_T_FORM_DEF) AS FOM
+        WHERE FOM.status = '1' and p_code='00000001'
+   </select>
+   
+<!--    <select id="queryformTypeParentTree" resultMap="formTypeTreeModel" parameterType="String">
+        SELECT * FROM (SELECT NAME,CODE,STATUS,P_CODE FROM LHX_T_FORM_TYPE
+		   UNION ALL
+		   SELECT FORM_NAME AS NAME,FORM_CODE,STATUS AS CODE,FORM_TYPE AS P_CODE FROM LHX_T_FORM_DEF) AS FOM
+        WHERE FOM.status = '1' and code=#{pCode}
+   </select> -->
+    
+    <select id="queryformTypeCHildTree" resultMap="formTypeTreeModel" parameterType="String">
+        SELECT * FROM (SELECT NAME,CODE,STATUS,P_CODE FROM LHX_T_FORM_TYPE
+		   UNION ALL
+		   SELECT FORM_NAME AS NAME,FORM_CODE,STATUS AS CODE,FORM_TYPE AS P_CODE FROM LHX_T_FORM_DEF) AS FOM
+        WHERE FOM.status = '1' and p_code=#{id}
+    </select>
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultFormDef">
+		  SELECT * FROM LHX_T_FORM_DEF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.formDef.model.FormDef" resultMap="resultFormDef"> 
+		SELECT * FROM LHX_T_FORM_DEF WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="formName != null and formName != ''">
+			 AND FORM_NAME = #{formName,jdbcType=VARCHAR}
+		</if>
+		<if test="formType != null and formType != ''">
+			 AND FORM_TYPE = #{formType,jdbcType=VARCHAR}
+		</if>
+		<if test="formDesc != null and formDesc != ''">
+			 AND FORM_DESC = #{formDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="formCode != null and formCode != ''">
+			 AND FORM_CODE = #{formCode,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultFormDef" parameterType="com.lhx.system.formDef.model.FormDefQuery"> 
+		SELECT * FROM LHX_T_FORM_DEF WHERE 1 = 1 
+		<if test="formName != null and formName != ''">
+			 AND FORM_NAME = #{formName,jdbcType=VARCHAR}
+		</if>
+		<if test="formCode != null and formCode != ''">
+			 AND FORM_CODE = #{formCode,jdbcType=VARCHAR}
+		</if>
+		<if test="formType != null and formType != ''">
+			 AND FORM_TYPE = #{formType,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.formDef.model.FormDef">
+		INSERT INTO LHX_T_FORM_DEF (ID_,FORM_NAME,FORM_TYPE,FORM_DESC,FORM_CODE,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{formName,jdbcType=VARCHAR},#{formType,jdbcType=VARCHAR},#{formDesc,jdbcType=VARCHAR},#{formCode,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_FORM_DEF SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="formName != null and formName != ''">
+			, FORM_NAME = #{formName,jdbcType=VARCHAR} 
+		</if>
+		<if test="formType != null and formType != ''">
+			, FORM_TYPE = #{formType,jdbcType=VARCHAR} 
+		</if>
+		<if test="formDesc != null and formDesc != ''">
+			, FORM_DESC = #{formDesc,jdbcType=VARCHAR} 
+		</if>
+		<if test="formCode != null and formCode != ''">
+			, FORM_CODE = #{formCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_FORM_DEF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

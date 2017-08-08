@@ -1,0 +1,91 @@
+package com.lhx.@parentmoduleName@.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import com.google.gson.Gson;
+import com.lhx.@parentmoduleName@.service.@moduleName@ManagerService;
+import com.lhx.@classBusPath@.model.@moduleName@;
+import com.lhx.@classBusPath@.model.@moduleName@Query;
+import com.lhx.utils.StringUtil;
+import com.lhx.utils.UUIDUtil;
+import com.lhx.common.BaseController;
+
+
+/**
+ * @moduleNameCH@管理控制器
+ * @author liangshu
+ *
+ */
+@Controller
+@RequestMapping("/system/@fmoduleName@Manager")
+public class @moduleName@ManagerController extends BaseController{
+	
+	@Autowired
+	private @moduleName@ManagerService @fmoduleName@ManagerService;
+	
+	@RequestMapping(value="/page/{page}.do")
+	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,@PathVariable("page") String page,@moduleName@ @fmoduleName@){
+		Map<String,Object>  resultMap = new HashMap<String,Object>();
+		super.setParameter(request, resultMap);
+		if(StringUtil.isNotBlank(@fmoduleName@.getId_())){
+			resultMap.put("result", @fmoduleName@ManagerService.get(@fmoduleName@.getId_()));
+		}
+		return new ModelAndView("/system/@fmoduleName@/"+page,resultMap);
+	}
+	
+	@RequestMapping(value="/ajaxlist.do")
+	@ResponseBody
+	public String ajaxlist(HttpServletRequest request,HttpServletResponse response,@moduleName@Query @fmoduleName@Query){
+
+		Map<String,Object>  resultMap = new HashMap<String,Object>();
+		
+		@fmoduleName@ManagerService.getListPage(@fmoduleName@Query);
+		
+		resultMap.put("result", @fmoduleName@Query);
+		Gson gson = new Gson();
+		
+		return gson.toJson(@fmoduleName@Query);
+	}
+	
+	@RequestMapping(value="/add@moduleName@.do")
+	@ResponseBody
+	public Map<String,Object> add@moduleName@(HttpServletRequest request,HttpServletResponse response,@moduleName@ @fmoduleName@){
+		Map<String,Object>  resultMap = new HashMap<String,Object>();
+		@fmoduleName@.setId_(UUIDUtil.getUUID());
+		@fmoduleName@ManagerService.add@moduleName@(@fmoduleName@);
+		resultMap.put("flag", "true");
+		return resultMap;
+	}
+	
+	@RequestMapping(value="/update@moduleName@.do")
+	@ResponseBody
+	public Map<String,Object> update@moduleName@(HttpServletRequest request,HttpServletResponse response,@moduleName@ @fmoduleName@){
+		Map<String,Object>  resultMap = new HashMap<String,Object>();
+		@fmoduleName@ManagerService.update@moduleName@(@fmoduleName@);
+		resultMap.put("flag", "true");
+		return resultMap;
+	}
+	
+	@RequestMapping(value="/delete@moduleName@.do")
+	@ResponseBody
+	public Map<String,Object> deleteUser(HttpServletRequest request,HttpServletResponse response,@moduleName@ @fmoduleName@){
+		Map<String,Object>  resultMap = new HashMap<String,Object>();
+		@fmoduleName@ManagerService.remove@moduleName@(@fmoduleName@,false );
+		resultMap.put("flag", "true");
+		return resultMap;
+	}
+	
+	@RequestMapping(value="/query@moduleName@.do")
+	public @moduleName@ queryUser(HttpServletRequest request,HttpServletResponse response,@moduleName@ @fmoduleName@){
+		return @fmoduleName@ManagerService.get(@fmoduleName@.getId_());
+	}
+
+}

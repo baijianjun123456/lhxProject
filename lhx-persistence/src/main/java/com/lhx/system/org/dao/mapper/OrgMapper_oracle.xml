@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.org.dao.OrgDao">
+	<select id="query" parameterType="java.lang.String" resultType="com.lhx.system.org.model.Org">
+		  SELECT * FROM LHX_T_SYS_ORG WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.org.model.Org" resultType="com.lhx.system.org.model.Org"> 
+		SELECT * FROM LHX_T_SYS_ORG WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="pid != null and pid != ''">
+			 AND PID = #{pid,jdbcType=VARCHAR}
+		</if>
+		<if test="flag != null and flag != ''">
+			 AND FLAG = #{flag,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="spell != null and spell != ''">
+			 AND SPELL = #{spell,jdbcType=VARCHAR}
+		</if>
+		<if test="level_ != null and level_ != ''">
+			 AND LEVEL_ = #{level_,jdbcType=VARCHAR}
+		</if>
+		<if test="identy != null and identy != ''">
+			 AND IDENTY = #{identy,jdbcType=VARCHAR}
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			 AND ORDER_BY = #{orderBy,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	<insert id="save" parameterType="com.lhx.system.org.model.Org">
+		INSERT INTO LHX_T_SYS_ORG (ID_,PID,FLAG,NAME,SPELL,LEVEL_,IDENTY,ORDER_BY,CREATET,CREATEP,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{pid,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{spell,jdbcType=VARCHAR},#{level_,jdbcType=VARCHAR},#{identy,jdbcType=VARCHAR},#{orderBy,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_ORG SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="pid != null and pid != ''">
+			, PID = #{pid,jdbcType=VARCHAR} 
+		</if>
+		<if test="flag != null and flag != ''">
+			, FLAG = #{flag,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name != ''">
+			, NAME = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="spell != null and spell != ''">
+			, SPELL = #{spell,jdbcType=VARCHAR} 
+		</if>
+		<if test="level_ != null and level_ != ''">
+			, LEVEL_ = #{level_,jdbcType=VARCHAR} 
+		</if>
+		<if test="identy != null and identy != ''">
+			, IDENTY = #{identy,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderBy != null and orderBy != ''">
+			, ORDER_BY = #{orderBy,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_SYS_ORG WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

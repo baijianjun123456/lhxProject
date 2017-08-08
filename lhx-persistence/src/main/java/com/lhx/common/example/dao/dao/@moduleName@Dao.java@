@@ -1,0 +1,14 @@
+package com.lhx.@classBusPath@.dao;
+
+import com.lhx.common.mybatis.BaseDao;
+import com.lhx.common.mybatis.SuperDao;
+import com.lhx.@classBusPath@.model.@moduleName@;
+import com.lhx.@classBusPath@.model.@moduleName@Query;
+
+/**
+ * @moduleNameCH@持久化接口；
+ * @author liangshu
+ */
+public interface @moduleName@Dao extends SuperDao,BaseDao<@moduleName@,@moduleName@Query> {
+
+}

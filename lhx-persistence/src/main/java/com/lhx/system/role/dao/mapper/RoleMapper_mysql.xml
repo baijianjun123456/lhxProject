@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.role.dao.RoleDao">
+
+	<resultMap type="com.lhx.system.role.model.Role" id="resultRole">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="name" column="NAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="nameSpell" column="NAME_SPELL" javaType="String" jdbcType="VARCHAR" />
+		<result property="orgId" column="ORG_ID" javaType="String" jdbcType="VARCHAR" />
+		<result property="orgLevel" column="ORG_LEVEL" javaType="String" jdbcType="VARCHAR" />
+		<result property="orgIdenty" column="ORG_IDENTY" javaType="String" jdbcType="VARCHAR" />
+		<result property="desc_" column="DESC_" javaType="String" jdbcType="VARCHAR" />
+		<result property="createt" column="CREATET" javaType="String" jdbcType="VARCHAR" />
+		<result property="createp" column="CREATEP" javaType="String" jdbcType="VARCHAR" />
+		<result property="status" column="STATUS" javaType="String" jdbcType="VARCHAR" />
+		<result property="code" column="CODE" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultRole">
+		  SELECT * FROM LHX_T_SYS_ROLE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectedRoleList" parameterType="java.lang.String" resultType="com.lhx.system.role.model.Role">
+		SELECT * FROM  LHX_T_SYS_ROLE LXSR  WHERE ID_ IN(SELECT ROLE_ID FROM LHX_T_SYS_USER_ROLE WHERE USER_ID = #{userId,jdbcType=VARCHAR})
+	</select>
+	
+	<select id="notSelectRoleList" parameterType="java.lang.String" resultType="com.lhx.system.role.model.Role">
+		SELECT * FROM  LHX_T_SYS_ROLE LXSR  WHERE ID_ not in(SELECT ROLE_ID FROM LHX_T_SYS_USER_ROLE WHERE USER_ID = #{userId,jdbcType=VARCHAR})
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.role.model.Role" resultMap="resultRole"> 
+		SELECT * FROM LHX_T_SYS_ROLE WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			 AND NAME_SPELL = #{nameSpell,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			 AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgLevel != null and orgLevel != ''">
+			 AND ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="orgIdenty != null and orgIdenty != ''">
+			 AND ORG_IDENTY = #{orgIdenty,jdbcType=VARCHAR}
+		</if>
+		<if test="desc_ != null and desc_ != ''">
+			 AND DESC_ = #{desc_,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="code != null and code != ''">
+			 AND CODE = #{code,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultRole" parameterType="com.lhx.system.role.model.RoleQuery"> 
+		SELECT * FROM LHX_T_SYS_ROLE WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.role.model.Role">
+		INSERT INTO LHX_T_SYS_ROLE (ID_,NAME,NAME_SPELL,ORG_ID,ORG_LEVEL,ORG_IDENTY,DESC_,CREATET,CREATEP,STATUS,CODE) VALUES(#{id_,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{nameSpell,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},#{orgLevel,jdbcType=VARCHAR},#{orgIdenty,jdbcType=VARCHAR},#{desc_,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_ROLE SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="name != null and name != ''">
+			, NAME = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="nameSpell != null and nameSpell != ''">
+			, NAME_SPELL = #{nameSpell,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId != ''">
+			, ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgLevel != null and orgLevel != ''">
+			, ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgIdenty != null and orgIdenty != ''">
+			, ORG_IDENTY = #{orgIdenty,jdbcType=VARCHAR} 
+		</if>
+		<if test="desc_ != null and desc_ != ''">
+			, DESC_ = #{desc_,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code != ''">
+			, CODE = #{code,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_SYS_ROLE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

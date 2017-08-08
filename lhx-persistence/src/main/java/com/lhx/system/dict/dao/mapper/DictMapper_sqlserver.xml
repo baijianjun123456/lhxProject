@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.dict.dao.DictDao">
+
+	<resultMap type="com.lhx.system.dict.model.Dict" id="resultDict">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="i18n" column="I18N" javaType="String" jdbcType="VARCHAR" />
+		<result property="name" column="NAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="value" column="VALUE" javaType="String" jdbcType="VARCHAR" />
+		<result property="code" column="CODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="pcode" column="PCODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="status" column="STATUS" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultDict">
+		  SELECT * FROM LHX_T_SYS_DICT WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.dict.model.Dict" resultMap="resultDict"> 
+		SELECT * FROM LHX_T_SYS_DICT WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="i18n != null and i18n != ''">
+			 AND I18N = #{i18n,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="value != null and value != ''">
+			 AND VALUE = #{value,jdbcType=VARCHAR}
+		</if>
+		<if test="code != null and code != ''">
+			 AND CODE = #{code,jdbcType=VARCHAR}
+		</if>
+		<if test="pcode != null and pcode != ''">
+			 AND PCODE = #{pcode,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultDict" parameterType="com.lhx.system.dict.model.DictQuery"> 
+		SELECT * FROM LHX_T_SYS_DICT WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.dict.model.Dict">
+		INSERT INTO LHX_T_SYS_DICT (ID_,I18N,NAME,VALUE,CODE,PCODE,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{i18n,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{pcode,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_DICT SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="i18n != null and i18n != ''">
+			, I18N = #{i18n,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name != ''">
+			, NAME = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="value != null and value != ''">
+			, VALUE = #{value,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code != ''">
+			, CODE = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="pcode != null and pcode != ''">
+			, PCODE = #{pcode,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_SYS_DICT WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

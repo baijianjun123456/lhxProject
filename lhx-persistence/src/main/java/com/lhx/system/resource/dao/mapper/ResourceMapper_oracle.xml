@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.system.resource.dao.ResourceDao">
+
+	<resultMap type="com.lhx.system.resource.model.Resource" id="resultResource">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="url" column="URL" javaType="String" jdbcType="VARCHAR" />
+		<result property="menuId" column="MENU_ID" javaType="String" jdbcType="VARCHAR" />
+		<result property="createt" column="CREATET" javaType="String" jdbcType="VARCHAR" />
+		<result property="createp" column="CREATEP" javaType="String" jdbcType="VARCHAR" />
+		<result property="status" column="STATUS" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultResource">
+		  SELECT * FROM LHX_T_SYS_RESOURCE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.system.resource.model.Resource" resultMap="resultResource"> 
+		SELECT * FROM LHX_T_SYS_RESOURCE WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="url != null and url != ''">
+			 AND URL = #{url,jdbcType=VARCHAR}
+		</if>
+		<if test="menuId != null and menuId != ''">
+			 AND MENU_ID = #{menuId,jdbcType=VARCHAR}
+		</if>
+		<if test="createt != null and createt != ''">
+			 AND CREATET = #{createt,jdbcType=VARCHAR}
+		</if>
+		<if test="createp != null and createp != ''">
+			 AND CREATEP = #{createp,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultResource" parameterType="com.lhx.system.resource.model.ResourceQuery"> 
+		SELECT * FROM LHX_T_SYS_RESOURCE WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.system.resource.model.Resource">
+		INSERT INTO LHX_T_SYS_RESOURCE (ID_,URL,MENU_ID,CREATET,CREATEP,STATUS) VALUES(#{id_,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{menuId,jdbcType=VARCHAR},#{createt,jdbcType=VARCHAR},#{createp,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_SYS_RESOURCE SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="url != null and url != ''">
+			, URL = #{url,jdbcType=VARCHAR} 
+		</if>
+		<if test="menuId != null and menuId != ''">
+			, MENU_ID = #{menuId,jdbcType=VARCHAR} 
+		</if>
+		<if test="createt != null and createt != ''">
+			, CREATET = #{createt,jdbcType=VARCHAR} 
+		</if>
+		<if test="createp != null and createp != ''">
+			, CREATEP = #{createp,jdbcType=VARCHAR} 
+		</if>
+		<if test="status != null and status != ''">
+			, STATUS = #{status,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_SYS_RESOURCE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

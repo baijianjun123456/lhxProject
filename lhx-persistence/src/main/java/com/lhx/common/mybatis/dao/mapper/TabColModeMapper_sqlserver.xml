@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.common.mybatis.dao.TabColDao">
+	
+	<resultMap type="com.lhx.file.model.TabColModel" id="resultTabColModel">
+	  <result property="tableName" column="TABLE_NAME"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="columnName" column="COLUMN_NAME" javaType="string" jdbcType="VARCHAR"/>
+	  <result property="DBDataType" column="DATA_TYPE" javaType="string" jdbcType="VARCHAR"/>
+	  <result property="dataLength" column="DATA_LENGTH"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="columnComments" column="COMMENTS"  javaType="string" jdbcType="VARCHAR"/>
+	  <result property="isNull" column="NULLABLE"  javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="queryList" parameterType="java.lang.String" resultMap="resultTabColModel"> 
+		SELECT
+			D.TABLE_NAME,
+			D.COLUMN_NAME,
+			D.DATA_TYPE,
+			D.IS_NULLABLE AS NULLABLE,
+			D.CHARACTER_MAXIMUM_LENGTH AS DATA_LENGTH,
+			convert(varchar(300), C.VALUE) AS COMMENTS
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					sys.tables
+				WHERE
+					name = #{tableName,jdbcType=VARCHAR}
+			) A
+		INNER JOIN sys.columns B ON B.object_id = A.object_id
+		LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id
+		AND C.minor_id = B.column_id
+		LEFT JOIN information_schema.columns D ON D.TABLE_NAME = D.TABLE_NAME
+		AND D.COLUMN_NAME = B.NAME
+		WHERE
+			TABLE_NAME = #{tableName,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

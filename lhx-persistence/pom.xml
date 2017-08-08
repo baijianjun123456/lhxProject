@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>lhx</groupId>
+  <artifactId>lhx-persistence</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>lhx-persistence</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  
+  	<!-- start add by liangshu  引入lhx相关业务jar包-->
+  	<dependency> <groupId>lhx</groupId> <artifactId>lhx-compents</artifactId><version>0.0.1-SNAPSHOT</version></dependency> 
+	<!--end add  by liangshu  -->
+	
+	<!-- start add by liangshu 引入mybatis相关jar包-->
+	<dependency><groupId>mybatis</groupId><artifactId>mybatis</artifactId><version>3.0.11</version></dependency> 
+	<dependency><groupId>mybatis</groupId><artifactId>mybatis-spring</artifactId><version>1.2.1</version></dependency> 
+	<!-- end add by liangshu -->
+	
+	<!-- start add by liangshu 数据库驱动相关jar包-->
+	<dependency><groupId>spring</groupId><artifactId>spring-jdbc</artifactId><version>4.1.5.RELEASE</version><type>jar</type></dependency> 
+	<dependency><groupId>commons-dbcp</groupId><artifactId>commons-dbcp</artifactId><version>1.4</version></dependency>
+	
+	<!-- oracle数据库连接驱动 -->
+	<dependency> <groupId>ojdbc14</groupId> <artifactId>ojdbc14</artifactId> <version>10.2.4</version></dependency>
+	
+	<!-- SqlServer数据库连接驱动 -->
+	<dependency><groupId>SqlServer</groupId><artifactId>sqljdbc4</artifactId> <version>3.0</version></dependency> 
+	
+	<!-- mysql数据库连接驱动 -->
+	<dependency> <groupId>mysql-connector-java</groupId><artifactId>mysql-connector-java</artifactId><version>5.1.14</version><classifier>bin</classifier></dependency> 
+	<!-- end add by liangshu -->
+	
+   </dependencies>
+</project>
