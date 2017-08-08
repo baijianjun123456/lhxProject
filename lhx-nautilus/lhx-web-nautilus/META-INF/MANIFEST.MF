@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: lhx-web-nautilus
+Bundle-SymbolicName: lhx-web-nautilus
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.lhx.system.controller
