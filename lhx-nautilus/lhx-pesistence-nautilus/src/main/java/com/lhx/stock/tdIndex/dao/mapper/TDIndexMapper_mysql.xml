@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.stock.tdIndex.dao.TDIndexDao">
+
+	<resultMap type="com.lhx.stock.tdIndex.model.TDIndex" id="resultTDIndex">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="tcode" column="TCODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="tname" column="TNAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="time" column="TIME" javaType="String" jdbcType="VARCHAR" />
+		<result property="open" column="OPEN" javaType="Double" jdbcType="VARCHAR" />
+		<result property="close" column="CLOSE" javaType="Double" jdbcType="VARCHAR" />
+		<result property="high" column="HIGH" javaType="Double" jdbcType="VARCHAR" />
+		<result property="low" column="LOW" javaType="Double" jdbcType="VARCHAR" />
+		<result property="seq" column="SEQ" javaType="Integer" jdbcType="VARCHAR" />
+		<result property="stCount" column="ST_COUNT" javaType="int" jdbcType="INTEGER" />
+		<result property="cdCount" column="CD_COUNT" javaType="int" jdbcType="INTEGER" />
+		<result property="stPhaseId" column="ST_PHASE_ID" javaType="String" jdbcType="VARCHAR" />
+		<result property="cdPhaseId" column="CD_PHASE_ID" javaType="String" jdbcType="VARCHAR" />
+		<result property="stTrend" column="ST_TREND" javaType="String" jdbcType="VARCHAR" />
+		<result property="cdTrend" column="CD_TREND" javaType="String" jdbcType="VARCHAR" />
+		<result property="stBp" column="ST_BP" javaType="String" jdbcType="VARCHAR" />
+		<result property="cdBp" column="CD_BP" javaType="String" jdbcType="VARCHAR" />
+		<result property="displayContent" column="DISPLAY_CONTENT" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultTDIndex">
+		  SELECT * FROM LHX_T_STOCK_MARKET_TDINDEX WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryMarketTdIndex" parameterType="java.lang.String" resultMap="resultTDIndex"> 
+		SELECT * FROM (
+				SELECT MK.ID_,MK.TCODE,MK.TNAME,MK.TIME,MK.OPEN,MK.CLOSE,MK.HIGH,MK.LOW,MK.SEQ,TD.ST_COUNT,TD.CD_COUNT,TD.ST_PHASE_ID,TD.CD_PHASE_ID,TD.ST_TREND,TD.CD_TREND,TD.ST_BP,TD.CD_BP,TD.DISPLAY_CONTENT FROM LHX_T_STOCK_MARKET_INFO MK 
+
+				LEFT JOIN 
+
+				LHX_T_STOCK_MARKET_TDINDEX TD ON TD.ID_=MK.ID_) T WHERE T.TCODE =  #{tcode,jdbcType=VARCHAR} ORDER BY SEQ ASC 
+	</select>
+	
+	<select id="queryMarkPoint" parameterType="java.lang.String" resultType="com.lhx.stock.tdIndex.model.PointData"> 
+		SELECT MK.TIME AS xAxis,GREATEST(MK.OPEN,MK.CLOSE) AS yAxis,TD.ST_COUNT AS value,'TD' AS TYPE FROM (SELECT * FROM LHX_T_STOCK_MARKET_TDINDEX WHERE ST_COUNT != -999) TD LEFT JOIN LHX_T_STOCK_MARKET_INFO MK ON TD.ID_=MK.ID_ AND MK.TCODE = #{tcode,jdbcType=VARCHAR} 
+		UNION ALL
+		SELECT MK.TIME AS xAxis,GREATEST(MK.OPEN,MK.CLOSE) AS yAxis,TD.DISPLAY_CONTENT AS value,'CD' AS TYPE FROM (SELECT * FROM LHX_T_STOCK_MARKET_TDINDEX WHERE DISPLAY_CONTENT IS NOT NULL) TD LEFT JOIN LHX_T_STOCK_MARKET_INFO MK ON TD.ID_=MK.ID_ AND MK.TCODE = #{tcode,jdbcType=VARCHAR} 	
+ </select>
+	
+	<select id="queryList" parameterType="com.lhx.stock.tdIndex.model.TDIndex" resultMap="resultTDIndex"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_TDINDEX WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="stCount != null and stCount != ''">
+			 AND ST_COUNT = #{stCount,jdbcType=INTEGER}
+		</if>
+		<if test="cdCount != null and cdCount != ''">
+			 AND CD_COUNT = #{cdCount,jdbcType=INTEGER}
+		</if>
+		<if test="stPhaseId != null and stPhaseId != ''">
+			 AND ST_PHASE_ID = #{stPhaseId,jdbcType=VARCHAR}
+		</if>
+		<if test="cdPhaseId != null and cdPhaseId != ''">
+			 AND CD_PHASE_ID = #{cdPhaseId,jdbcType=VARCHAR}
+		</if>
+		<if test="stTrend != null and stTrend != ''">
+			 AND ST_TREND = #{stTrend,jdbcType=VARCHAR}
+		</if>
+		<if test="cdTrend != null and cdTrend != ''">
+			 AND CD_TREND = #{cdTrend,jdbcType=VARCHAR}
+		</if>
+		<if test="stBp != null and stBp != ''">
+			 AND ST_BP = #{stBp,jdbcType=VARCHAR}
+		</if>
+		<if test="cdBp != null and cdBp != ''">
+			 AND CD_BP = #{cdBp,jdbcType=VARCHAR}
+		</if>
+		<if test="displayContent != null and displayContent != ''">
+			 AND DISPLAY_CONTENT = #{displayContent,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultTDIndex" parameterType="com.lhx.stock.tdIndex.model.TDIndexQuery"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_TDINDEX WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.stock.tdIndex.model.TDIndex">
+		INSERT INTO LHX_T_STOCK_MARKET_TDINDEX (ID_,ST_COUNT,CD_COUNT,ST_PHASE_ID,CD_PHASE_ID,ST_TREND,CD_TREND,ST_BP,CD_BP,DISPLAY_CONTENT) VALUES(#{id_,jdbcType=VARCHAR},#{stCount,jdbcType=VARCHAR},#{cdCount,jdbcType=VARCHAR},#{stPhaseId,jdbcType=VARCHAR},#{cdPhaseId,jdbcType=VARCHAR},#{stTrend,jdbcType=VARCHAR},#{cdTrend,jdbcType=VARCHAR},#{stBp,jdbcType=VARCHAR},#{cdBp,jdbcType=VARCHAR},#{displayContent,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="saveMore" parameterType="java.util.Collection">
+		INSERT INTO LHX_T_STOCK_MARKET_TDINDEX (ID_,ST_COUNT,CD_COUNT,ST_PHASE_ID,CD_PHASE_ID,ST_TREND,CD_TREND,ST_BP,CD_BP,DISPLAY_CONTENT) VALUES
+		<foreach collection="collection" item="item" index="index" separator="," >  
+        		(#{item.id_,jdbcType=VARCHAR},#{item.stCount,jdbcType=VARCHAR},#{item.cdCount,jdbcType=VARCHAR},#{item.stPhaseId,jdbcType=VARCHAR},#{item.cdPhaseId,jdbcType=VARCHAR},#{item.stTrend,jdbcType=VARCHAR},#{item.cdTrend,jdbcType=VARCHAR},#{item.stBp,jdbcType=VARCHAR},#{item.cdBp,jdbcType=VARCHAR},#{item.displayContent,jdbcType=VARCHAR}) 
+    	</foreach>  
+	</insert>
+	
+
+	<update id="update">
+		UPDATE LHX_T_STOCK_MARKET_TDINDEX SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="stCount != null and stCount != ''">
+			, ST_COUNT = #{stCount,jdbcType=INTEGER} 
+		</if>
+		<if test="cdCount != null and cdCount != ''">
+			, CD_COUNT = #{cdCount,jdbcType=INTEGER} 
+		</if>
+		<if test="stPhaseId != null and stPhaseId != ''">
+			, ST_PHASE_ID = #{stPhaseId,jdbcType=VARCHAR} 
+		</if>
+		<if test="cdPhaseId != null and cdPhaseId != ''">
+			, CD_PHASE_ID = #{cdPhaseId,jdbcType=VARCHAR} 
+		</if>
+		<if test="stTrend != null and stTrend != ''">
+			, ST_TREND = #{stTrend,jdbcType=VARCHAR} 
+		</if>
+		<if test="cdTrend != null and cdTrend != ''">
+			, CD_TREND = #{cdTrend,jdbcType=VARCHAR} 
+		</if>
+		<if test="stBp != null and stBp != ''">
+			, ST_BP = #{stBp,jdbcType=VARCHAR} 
+		</if>
+		<if test="cdBp != null and cdBp != ''">
+			, CD_BP = #{cdBp,jdbcType=VARCHAR} 
+		</if>
+		<if test="displayContent != null and displayContent != ''">
+			, DISPLAY_CONTENT = #{displayContent,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_STOCK_MARKET_TDINDEX WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

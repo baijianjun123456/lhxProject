@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.stock.market.dao.MarketDao">
+
+	<resultMap type="com.lhx.stock.market.model.Market" id="resultMarket">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="tcode" column="TCODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="tname" column="TNAME" javaType="String" jdbcType="VARCHAR" />
+		<result property="time" column="TIME" javaType="String" jdbcType="VARCHAR" />
+		<result property="open" column="OPEN" javaType="Double" jdbcType="VARCHAR" />
+		<result property="close" column="CLOSE" javaType="Double" jdbcType="VARCHAR" />
+		<result property="high" column="HIGH" javaType="Double" jdbcType="VARCHAR" />
+		<result property="low" column="LOW" javaType="Double" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultMarket">
+		  SELECT * FROM LHX_T_STOCK_MARKET_INFO WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.stock.market.model.Market" resultMap="resultMarket"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_INFO WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="tcode != null and tcode != ''">
+			 AND TCODE = #{tcode,jdbcType=VARCHAR}
+		</if>
+		<if test="tname != null and tname != ''">
+			 AND TNAME = #{tname,jdbcType=VARCHAR}
+		</if>
+		<if test="time != null and time != ''">
+			 AND TIME = #{time,jdbcType=VARCHAR}
+		</if>
+		<if test="open != null and open != ''">
+			 AND OPEN = #{open,jdbcType=VARCHAR}
+		</if>
+		<if test="close != null and close != ''">
+			 AND CLOSE = #{close,jdbcType=VARCHAR}
+		</if>
+		<if test="high != null and high != ''">
+			 AND HIGH = #{high,jdbcType=VARCHAR}
+		</if>
+		<if test="low != null and low != ''">
+			 AND LOW = #{low,jdbcType=VARCHAR}
+		</if>
+		order by  SEQ asc
+	</select>
+	
+	<select id="queryTimeList" parameterType="java.lang.String" resultType="java.lang.String"> 
+			SELECT time FROM LHX_T_STOCK_MARKET_INFO WHERE 1 = 1 
+ 			AND TCODE = #{tcode,jdbcType=VARCHAR} order by SEQ asc 
+	</select>
+	
+	<select id="queryListByTcode" parameterType="java.lang.String" resultType="String"> 
+			SELECT concat('"',OPEN,'"',',"',CLOSE,'","',LOW,'","',HIGH,'"')  FROM LHX_T_STOCK_MARKET_INFO WHERE 1 = 1 
+ 			AND TCODE = #{tcode,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryListPage" resultMap="resultMarket" parameterType="com.lhx.stock.market.model.MarketQuery"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_INFO WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.stock.market.model.Market">
+		INSERT INTO LHX_T_STOCK_MARKET_INFO (ID_,TCODE,TNAME,TIME,OPEN,CLOSE,HIGH,LOW) VALUES(#{id_,jdbcType=VARCHAR},#{tcode,jdbcType=VARCHAR},#{tname,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR},#{open,jdbcType=VARCHAR},#{close,jdbcType=VARCHAR},#{high,jdbcType=VARCHAR},#{low,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_STOCK_MARKET_INFO SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="tcode != null and tcode != ''">
+			, TCODE = #{tcode,jdbcType=VARCHAR} 
+		</if>
+		<if test="tname != null and tname != ''">
+			, TNAME = #{tname,jdbcType=VARCHAR} 
+		</if>
+		<if test="time != null and time != ''">
+			, TIME = #{time,jdbcType=VARCHAR} 
+		</if>
+		<if test="open != null and open != ''">
+			, OPEN = #{open,jdbcType=VARCHAR} 
+		</if>
+		<if test="close != null and close != ''">
+			, CLOSE = #{close,jdbcType=VARCHAR} 
+		</if>
+		<if test="high != null and high != ''">
+			, HIGH = #{high,jdbcType=VARCHAR} 
+		</if>
+		<if test="low != null and low != ''">
+			, LOW = #{low,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_STOCK_MARKET_INFO WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

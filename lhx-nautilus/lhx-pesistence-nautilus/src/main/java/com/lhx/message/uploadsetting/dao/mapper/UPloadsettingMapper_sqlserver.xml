@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.message.uploadsetting.dao.UPloadsettingDao">
+
+	<resultMap type="com.lhx.message.uploadsetting.model.UPloadsetting" id="resultUPloadsetting">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="ipaddress" column="IPAddress" javaType="String" jdbcType="VARCHAR" />
+		<result property="state" column="State" javaType="String" jdbcType="VARCHAR" />
+		<result property="loginname" column="LoginName" javaType="String" jdbcType="VARCHAR" />
+		<result property="password" column="Password" javaType="String" jdbcType="VARCHAR" />
+		<result property="port" column="Port" javaType="String" jdbcType="VARCHAR" />
+		<result property="isdel" column="IsDel" javaType="String" jdbcType="VARCHAR" />
+		<result property="createtime" column="CreateTime" javaType="Date" jdbcType="DATE" />
+		<result property="sertype" column="SerType" javaType="String" jdbcType="VARCHAR" />
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultUPloadsetting">
+		  SELECT * FROM LHX_T_MESS_UPLOADSETTING WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.message.uploadsetting.model.UPloadsetting" resultMap="resultUPloadsetting"> 
+		SELECT * FROM LHX_T_MESS_UPLOADSETTING WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="ipaddress != null and ipaddress != ''">
+			 AND IPAddress = #{ipaddress,jdbcType=VARCHAR}
+		</if>
+		<if test="state != null and state != ''">
+			 AND State = #{state,jdbcType=VARCHAR}
+		</if>
+		<if test="loginname != null and loginname != ''">
+			 AND LoginName = #{loginname,jdbcType=VARCHAR}
+		</if>
+		<if test="password != null and password != ''">
+			 AND Password = #{password,jdbcType=VARCHAR}
+		</if>
+		<if test="port != null and port != ''">
+			 AND Port = #{port,jdbcType=VARCHAR}
+		</if>
+		<if test="isdel != null and isdel != ''">
+			 AND IsDel = #{isdel,jdbcType=VARCHAR}
+		</if>
+		<if test="createtime != null and createtime != ''">
+			 AND CreateTime = #{createtime,jdbcType=DATE}
+		</if>
+		<if test="sertype != null and sertype != ''">
+			 AND SerType = #{sertype,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark != ''">
+			 AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultUPloadsetting" parameterType="com.lhx.message.uploadsetting.model.UPloadsettingQuery"> 
+		SELECT * FROM LHX_T_MESS_UPLOADSETTING WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.message.uploadsetting.model.UPloadsetting">
+		INSERT INTO LHX_T_MESS_UPLOADSETTING (ID_,IPAddress,State,LoginName,Password,Port,IsDel,CreateTime,SerType,remark) VALUES(#{id_,jdbcType=VARCHAR},#{ipaddress,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{loginname,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{port,jdbcType=VARCHAR},#{isdel,jdbcType=VARCHAR},#{createtime,jdbcType=DATE},#{sertype,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_MESS_UPLOADSETTING SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="ipaddress != null and ipaddress != ''">
+			, IPAddress = #{ipaddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="state != null and state != ''">
+			, State = #{state,jdbcType=VARCHAR} 
+		</if>
+		<if test="loginname != null and loginname != ''">
+			, LoginName = #{loginname,jdbcType=VARCHAR} 
+		</if>
+		<if test="password != null and password != ''">
+			, Password = #{password,jdbcType=VARCHAR} 
+		</if>
+		<if test="port != null and port != ''">
+			, Port = #{port,jdbcType=VARCHAR} 
+		</if>
+		<if test="isdel != null and isdel != ''">
+			, IsDel = #{isdel,jdbcType=VARCHAR} 
+		</if>
+		<if test="createtime != null and createtime != ''">
+			, CreateTime = #{createtime,jdbcType=DATE} 
+		</if>
+		<if test="sertype != null and sertype != ''">
+			, SerType = #{sertype,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark != null and remark != ''">
+			, remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_MESS_UPLOADSETTING WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

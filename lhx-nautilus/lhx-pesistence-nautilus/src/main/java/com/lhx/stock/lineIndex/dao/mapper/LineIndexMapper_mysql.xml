@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.stock.lineIndex.dao.LineIndexDao">
+
+	<resultMap type="com.lhx.stock.lineIndex.model.LineIndex" id="resultLineIndex">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="xtimes" column="xtimes" javaType="String" jdbcType="VARCHAR" />
+		<result property="yvalue" column="yValue" javaType="String" jdbcType="VARCHAR" />
+		<result property="type" column="type" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultLineIndex">
+		  SELECT * FROM LHX_T_STOCK_MARKET_LINEINDEX WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.stock.lineIndex.model.LineIndex" resultMap="resultLineIndex"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_LINEINDEX WHERE 1 = 1 AND   type = #{type,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryListByType" parameterType="java.lang.String" resultType="java.util.Map"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_LINEINDEX WHERE 1 = 1 AND   type = #{type,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryListPage" resultMap="resultLineIndex" parameterType="com.lhx.stock.lineIndex.model.LineIndexQuery"> 
+		SELECT * FROM LHX_T_STOCK_MARKET_LINEINDEX WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.stock.lineIndex.model.LineIndex">
+		INSERT INTO LHX_T_STOCK_MARKET_LINEINDEX (ID_,xtimes,yValue,type) VALUES(#{id_,jdbcType=VARCHAR},#{xtimes,jdbcType=VARCHAR},#{yvalue,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="saveMore" parameterType="java.util.Collection">
+		INSERT INTO LHX_T_STOCK_MARKET_LINEINDEX (ID_,xtimes,yValue,type) VALUES
+		<foreach collection="collection" item="item" index="index" separator="," >  
+        		(#{item.id_,jdbcType=VARCHAR},#{item.xtimes,jdbcType=VARCHAR},#{item.yValue,jdbcType=VARCHAR},#{item.type,jdbcType=VARCHAR}) 
+    	</foreach>  
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_STOCK_MARKET_LINEINDEX SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="xtimes != null and xtimes != ''">
+			, xtimes = #{xtimes,jdbcType=VARCHAR} 
+		</if>
+		<if test="yvalue != null and yvalue != ''">
+			, yValue = #{yvalue,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type != ''">
+			, type = #{type,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE LHX_T_STOCK_MARKET_LINEINDEX WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

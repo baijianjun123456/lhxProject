@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.stock.self.dao.StockSelfDao">
+
+	<resultMap type="com.lhx.stock.self.model.StockSelf" id="resultStockSelf">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="userId" column="USER_ID" javaType="String" jdbcType="VARCHAR" />
+		<result property="tcode" column="TCODE" javaType="String" jdbcType="VARCHAR" />
+		<result property="tname" column="TNAME" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultStockSelf">
+		  SELECT * FROM LHX_T_STOCK_SELF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.stock.self.model.StockSelf" resultMap="resultStockSelf"> 
+		SELECT * FROM LHX_T_STOCK_SELF WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="userId != null and userId != ''">
+			 AND USER_ID = #{userId,jdbcType=VARCHAR}
+		</if>
+		<if test="tcode != null and tcode != ''">
+			 AND TCODE = #{tcode,jdbcType=VARCHAR}
+		</if>
+		<if test="tname != null and tname != ''">
+			 AND TNAME = #{tname,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultStockSelf" parameterType="com.lhx.stock.self.model.StockSelfQuery"> 
+		SELECT * FROM LHX_T_STOCK_SELF WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.stock.self.model.StockSelf">
+		INSERT INTO LHX_T_STOCK_SELF (ID_,USER_ID,TCODE,TNAME) VALUES(#{id_,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{tcode,jdbcType=VARCHAR},#{tname,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_STOCK_SELF SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="userId != null and userId != ''">
+			, USER_ID = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="tcode != null and tcode != ''">
+			, TCODE = #{tcode,jdbcType=VARCHAR} 
+		</if>
+		<if test="tname != null and tname != ''">
+			, TNAME = #{tname,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_STOCK_SELF WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteByTcode" parameterType="com.lhx.stock.self.model.StockSelf">
+		DELETE FROM LHX_T_STOCK_SELF WHERE USER_ID = #{userId,jdbcType=VARCHAR}  and TCODE = #{tcode,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

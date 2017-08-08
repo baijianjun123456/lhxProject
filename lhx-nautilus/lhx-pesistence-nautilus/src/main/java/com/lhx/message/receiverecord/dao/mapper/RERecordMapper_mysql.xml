@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.message.receiverecord.dao.RERecordDao">
+
+	<resultMap type="com.lhx.message.receiverecord.model.RERecord" id="resultRERecord">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="deptid" column="DeptId" javaType="String" jdbcType="VARCHAR" />
+		<result property="roleid" column="RoleId" javaType="String" jdbcType="VARCHAR" />
+		<result property="level" column="Level" javaType="String" jdbcType="VARCHAR" />
+		<result property="receivemember" column="ReceiveMember" javaType="String" jdbcType="VARCHAR" />
+		<result property="receivetime" column="ReceiveTime" javaType="String" jdbcType="VARCHAR" />
+		<result property="pubid" column="PubId" javaType="String" jdbcType="VARCHAR" />
+		<result property="pubtitle" column="PubTitle" javaType="String" jdbcType="VARCHAR" />
+		<result property="isdel" column="IsDel" javaType="String" jdbcType="VARCHAR" />
+		<result property="isshow" column="IsShow" javaType="String" jdbcType="VARCHAR" />
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultRERecord">
+		  SELECT * FROM LHX_T_MESS_RECEIVERECORD WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.message.receiverecord.model.RERecord" resultMap="resultRERecord"> 
+		SELECT * FROM LHX_T_MESS_RECEIVERECORD WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="deptid != null and deptid != ''">
+			 AND DeptId = #{deptid,jdbcType=VARCHAR}
+		</if>
+		<if test="roleid != null and roleid != ''">
+			 AND RoleId = #{roleid,jdbcType=VARCHAR}
+		</if>
+		<if test="level != null and level != ''">
+			 AND Level = #{level,jdbcType=VARCHAR}
+		</if>
+		<if test="receivemember != null and receivemember != ''">
+			 AND ReceiveMember = #{receivemember,jdbcType=VARCHAR}
+		</if>
+		<if test="receivetime != null and receivetime != ''">
+			 AND ReceiveTime = #{receivetime,jdbcType=VARCHAR}
+		</if>
+		<if test="pubid != null and pubid != ''">
+			 AND PubId = #{pubid,jdbcType=VARCHAR}
+		</if>
+		<if test="pubtitle != null and pubtitle != ''">
+			 AND PubTitle = #{pubtitle,jdbcType=VARCHAR}
+		</if>
+		<if test="isdel != null and isdel != ''">
+			 AND IsDel = #{isdel,jdbcType=VARCHAR}
+		</if>
+		<if test="isshow != null and isshow != ''">
+			 AND IsShow = #{isshow,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark != ''">
+			 AND remark = #{remark,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultRERecord" parameterType="com.lhx.message.receiverecord.model.RERecordQuery"> 
+		SELECT * FROM LHX_T_MESS_RECEIVERECORD WHERE 1 = 1 
+		<if test="receivemember != null and receivemember != ''">
+			 AND ReceiveMember = #{receivemember,jdbcType=VARCHAR}
+		</if>
+		<if test="isdel != null and isdel != ''">
+			 AND IsDel = #{isdel,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.message.receiverecord.model.RERecord">
+		INSERT INTO LHX_T_MESS_RECEIVERECORD (ID_,DeptId,RoleId,Level,ReceiveMember,ReceiveTime,PubId,PubTitle,IsDel,IsShow,remark) VALUES(#{id_,jdbcType=VARCHAR},#{deptid,jdbcType=VARCHAR},#{roleid,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{receivemember,jdbcType=VARCHAR},#{receivetime,jdbcType=VARCHAR},#{pubid,jdbcType=VARCHAR},#{pubtitle,jdbcType=VARCHAR},#{isdel,jdbcType=VARCHAR},#{isshow,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_MESS_RECEIVERECORD SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="deptid != null and deptid != ''">
+			, DeptId = #{deptid,jdbcType=VARCHAR} 
+		</if>
+		<if test="roleid != null and roleid != ''">
+			, RoleId = #{roleid,jdbcType=VARCHAR} 
+		</if>
+		<if test="level != null and level != ''">
+			, Level = #{level,jdbcType=VARCHAR} 
+		</if>
+		<if test="receivemember != null and receivemember != ''">
+			, ReceiveMember = #{receivemember,jdbcType=VARCHAR} 
+		</if>
+		<if test="receivetime != null and receivetime != ''">
+			, ReceiveTime = #{receivetime,jdbcType=VARCHAR} 
+		</if>
+		<if test="pubid != null and pubid != ''">
+			, PubId = #{pubid,jdbcType=VARCHAR} 
+		</if>
+		<if test="pubtitle != null and pubtitle != ''">
+			, PubTitle = #{pubtitle,jdbcType=VARCHAR} 
+		</if>
+		<if test="isdel != null and isdel != ''">
+			, IsDel = #{isdel,jdbcType=VARCHAR} 
+		</if>
+		<if test="isshow != null and isshow != ''">
+			, IsShow = #{isshow,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark != null and remark != ''">
+			, remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_MESS_RECEIVERECORD WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhx.message.publicize.dao.PublicizeDao">
+
+	<resultMap type="com.lhx.message.publicize.model.Publicize" id="resultPublicize">
+		<result property="id_" column="ID_" javaType="String" jdbcType="VARCHAR" />
+		<result property="title" column="Title" javaType="String" jdbcType="VARCHAR" />
+		<result property="abstrac" column="Abstrac" javaType="String" jdbcType="VARCHAR" />
+		<result property="content" column="Content" javaType="String" jdbcType="VARCHAR" />
+		<result property="member" column="Member" javaType="String" jdbcType="VARCHAR" />
+		<result property="isdel" column="IsDel" javaType="String" jdbcType="VARCHAR" />
+		<result property="thcontent" column="Thcontent" javaType="String" jdbcType="VARCHAR" />
+		<result property="level" column="Level" javaType="String" jdbcType="VARCHAR" />
+		<result property="attchid" column="AttchId" javaType="String" jdbcType="VARCHAR" />
+		<result property="imageid" column="ImageId" javaType="String" jdbcType="VARCHAR" />
+		<result property="fabutime" column="FaBuTime" javaType="String" jdbcType="VARCHAR" />
+		<result property="state" column="State" javaType="String" jdbcType="VARCHAR" />
+		<result property="remark" column="Remark" javaType="String" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	
+	<select id="query" parameterType="java.lang.String" resultMap="resultPublicize">
+		  SELECT * FROM LHX_T_MESS_PUBLICIZE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryList" parameterType="com.lhx.message.publicize.model.Publicize" resultMap="resultPublicize"> 
+		SELECT * FROM LHX_T_MESS_PUBLICIZE WHERE 1 = 1 
+		<if test="id_ != null and id_ != ''">
+			 AND ID_ = #{id_,jdbcType=VARCHAR}
+		</if>
+		<if test="title != null and title != ''">
+			 AND Title = #{title,jdbcType=VARCHAR}
+		</if>
+		<if test="abstrac != null and abstrac != ''">
+			 AND Abstrac = #{abstrac,jdbcType=VARCHAR}
+		</if>
+		<if test="content != null and content != ''">
+			 AND Content = #{content,jdbcType=VARCHAR}
+		</if>
+		<if test="member != null and member != ''">
+			 AND Member = #{member,jdbcType=VARCHAR}
+		</if>
+		<if test="isdel != null and isdel != ''">
+			 AND IsDel = #{isdel,jdbcType=VARCHAR}
+		</if>
+		<if test="thcontent != null and thcontent != ''">
+			 AND Thcontent = #{thcontent,jdbcType=VARCHAR}
+		</if>
+		<if test="level != null and level != ''">
+			 AND Level = #{level,jdbcType=VARCHAR}
+		</if>
+		<if test="attchid != null and attchid != ''">
+			 AND AttchId = #{attchid,jdbcType=VARCHAR}
+		</if>
+		<if test="imageid != null and imageid != ''">
+			 AND ImageId = #{imageid,jdbcType=VARCHAR}
+		</if>
+		<if test="fabutime != null and fabutime != ''">
+			 AND FaBuTime = #{fabutime,jdbcType=VARCHAR}
+		</if>
+		<if test="state != null and state != ''">
+			 AND State = #{state,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark != ''">
+			 AND Remark = #{remark,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	<select id="queryListPage" resultMap="resultPublicize" parameterType="com.lhx.message.publicize.model.PublicizeQuery"> 
+		SELECT * FROM LHX_T_MESS_PUBLICIZE WHERE 1 = 1 
+		<if test="name != null and name != ''">
+			 AND NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			 AND STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.lhx.message.publicize.model.Publicize">
+		INSERT INTO LHX_T_MESS_PUBLICIZE (ID_,Title,Abstrac,Content,Member,IsDel,Thcontent,Level,AttchId,ImageId,FaBuTime,State,Remark) VALUES(#{id_,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{abstrac,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{member,jdbcType=VARCHAR},#{isdel,jdbcType=VARCHAR},#{thcontent,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{attchid,jdbcType=VARCHAR},#{imageid,jdbcType=VARCHAR},#{fabutime,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update">
+		UPDATE LHX_T_MESS_PUBLICIZE SET ID_ = #{id_,jdbcType=VARCHAR}
+		<if test="title != null and title != ''">
+			, Title = #{title,jdbcType=VARCHAR} 
+		</if>
+		<if test="abstrac != null and abstrac != ''">
+			, Abstrac = #{abstrac,jdbcType=VARCHAR} 
+		</if>
+		<if test="content != null and content != ''">
+			, Content = #{content,jdbcType=VARCHAR} 
+		</if>
+		<if test="member != null and member != ''">
+			, Member = #{member,jdbcType=VARCHAR} 
+		</if>
+		<if test="isdel != null and isdel != ''">
+			, IsDel = #{isdel,jdbcType=VARCHAR} 
+		</if>
+		<if test="thcontent != null and thcontent != ''">
+			, Thcontent = #{thcontent,jdbcType=VARCHAR} 
+		</if>
+		<if test="level != null and level != ''">
+			, Level = #{level,jdbcType=VARCHAR} 
+		</if>
+		<if test="attchid != null and attchid != ''">
+			, AttchId = #{attchid,jdbcType=VARCHAR} 
+		</if>
+		<if test="imageid != null and imageid != ''">
+			, ImageId = #{imageid,jdbcType=VARCHAR} 
+		</if>
+		<if test="fabutime != null and fabutime != ''">
+			, FaBuTime = #{fabutime,jdbcType=VARCHAR} 
+		</if>
+		<if test="state != null and state != ''">
+			, State = #{state,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark != null and remark != ''">
+			, Remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+
+		WHERE  ID_ = #{id_,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM LHX_T_MESS_PUBLICIZE WHERE ID_ = #{id_,jdbcType=VARCHAR}
+	</delete>
+</mapper>
