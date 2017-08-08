@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>lhx</groupId>
+  <artifactId>lhx-service</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>lhx-service</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>	
+		 <!-- start add by liangshu  引入lhx相关业务jar包-->
+	  	<dependency> <groupId>lhx</groupId> <artifactId>lhx-persistence</artifactId><version>0.0.1-SNAPSHOT</version></dependency> 
+		<!--end add  by liangshu  -->
+		
+		<!-- start add by liangshu  引入spring相关jar包-->
+		<dependency><groupId>spring</groupId><artifactId>spring-webmvc</artifactId><version>4.1.6</version></dependency> 
+		<dependency><groupId>spring</groupId><artifactId>spring-security-web</artifactId><version>4.0.1</version> </dependency> 
+        <dependency><groupId>spring</groupId> <artifactId>spring-security-config</artifactId> <version>4.0.1</version></dependency> 
+		<dependency><groupId>spring</groupId><artifactId>spring-security-core</artifactId><version>4.0.1</version></dependency>
+		<!-- end add by liangshu -->
+ 
+  </dependencies>
+  
+</project>
