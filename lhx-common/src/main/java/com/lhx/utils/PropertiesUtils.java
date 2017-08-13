@@ -1,6 +1,7 @@
 package com.lhx.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,19 @@ public class PropertiesUtils {
 			}
 		} catch (IOException e) {
 			log.error("Failed to read "+propFile+" file ");
+		}
+	}
+	
+	public static void loadProperties(InputStream in){
+		Properties prop = new Properties();
+		try {
+			prop.load(in);
+			Set<Entry<Object,Object>> propSet = prop.entrySet();
+			for(Entry<Object,Object> enry : propSet){
+				propMap.put(enry.getKey().toString(), enry.getValue().toString());
+			}
+		} catch (IOException e) {
+			log.error("Faile："+in);
 		}
 	}
 
