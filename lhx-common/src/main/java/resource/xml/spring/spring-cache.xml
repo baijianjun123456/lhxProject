@@ -23,6 +23,7 @@
 	<bean id="busCacheManager" class="com.lhx.cache.ehcache.manager.EHcacheManager"  scope="prototype"/>  
 	<!-- memcache服务接口 -->
 	<!-- <bean id="busCacheManager" class="com.lhx.cache.memcache.manager.MemcacheManagerImpl"  /> -->
+	<!-- <bean id="busCacheManager" class="com.lhx.cache.redis.manager.RedisClusterManager"  /> -->
 	
 	<bean id="cacheTool" class="com.lhx.cache.utils.CacheUtil"  />
 
