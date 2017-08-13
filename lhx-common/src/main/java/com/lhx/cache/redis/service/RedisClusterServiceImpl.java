@@ -17,7 +17,6 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Component
 public class RedisClusterServiceImpl implements RedisClusterService,InitializingBean{
 	
 	private static Log logger = LogFactory.getLogger(RedisClusterServiceImpl.class);
