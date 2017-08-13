@@ -18,7 +18,7 @@
 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"   p:configLocation="classpath:/resource/xml/spring/ehcache.xml"/>  
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"  p:cacheManager-ref="ehcache"/>  
 	
-	<!-- 业务缓存接口实现类 -->
+	<!-- 业务缓存接口实现类 -->  
 	<!-- ehcache服务接口 -->
 	<bean id="busCacheManager" class="com.lhx.cache.ehcache.manager.EHcacheManager"  scope="prototype"/>  
 	<!-- memcache服务接口 -->
